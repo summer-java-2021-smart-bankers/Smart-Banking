@@ -6,12 +6,12 @@ public class Main {
 
     public static void main(String[] args) {
 
-        /*Back End control component*/
+        /*BackEnd control component*/
 //        Scanner scanner = new Scanner(System.in);
 //        App app = new App();
 //        app.app(args);
 
-        /*Front End control component*/
+        /*FrontEnd control component*/
         FrontEndControl.FrontEndControl();
 
     }
