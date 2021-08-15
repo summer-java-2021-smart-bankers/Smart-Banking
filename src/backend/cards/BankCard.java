@@ -1,4 +1,4 @@
-package cards;
+package backend.cards;
 
 import java.math.BigDecimal;
 

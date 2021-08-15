@@ -1,4 +1,4 @@
-package users;
+package backend.users;
 
 public interface PersonFunctions {
 }

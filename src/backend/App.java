@@ -1,7 +1,9 @@
-import cards.BankCard;
-import cards.Credit;
-import cards.MasterCard;
-import cards.Visa;
+package backend;
+
+import backend.cards.BankCard;
+import backend.cards.Credit;
+import backend.cards.MasterCard;
+import backend.cards.Visa;
 
 import java.math.BigDecimal;
 import java.util.Scanner;

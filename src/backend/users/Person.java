@@ -1,6 +1,6 @@
-package users;
+package backend.users;
 
-import cards.BankCard;
+import backend.cards.BankCard;
 
 import java.util.ArrayList;
 
