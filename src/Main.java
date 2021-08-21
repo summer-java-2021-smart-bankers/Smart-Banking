@@ -6,11 +6,11 @@ import java.sql.SQLException;
 
 public class Main {
 
-    public static void main(String[] args) {
-
+    public static void main(String[] args) throws SQLException {
+//
 //        Register register = new Register();
 //        register.setConnection();
-//        register.register("chinkata", "1234", "ivan@gmail.com", "plovdiv", "ivan", "petrov");
+//        register.register("ivan123", "0000", "ivan123@gmail.com", "plovdiv", "ivan", "petrov");
 
 
         /*BackEnd control component*/
@@ -19,7 +19,7 @@ public class Main {
 //        app.app(args);
 
         /*FrontEnd control component*/
-        FrontEndControl.FrontEndControl();
+//        FrontEndControl.FrontEndControl();
 
 
 
