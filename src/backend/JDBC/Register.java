@@ -11,7 +11,6 @@ public class Register {
 
     private Connection connection;
 
-
     public void setConnection() throws SQLException {
         Properties properties = new Properties();
         properties.setProperty("user", DATABASE_USERNAME);
@@ -36,6 +35,8 @@ public class Register {
         preparedStatement.execute();
 
     }
+
+
 
 
 }

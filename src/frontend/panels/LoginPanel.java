@@ -1,9 +1,12 @@
 package frontend.panels;
 
+import frontend.controls.FrontEndControl;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 public class LoginPanel implements ActionListener {
 
@@ -53,16 +56,22 @@ public class LoginPanel implements ActionListener {
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        String user = usernameField.getText();
-                        String pass = passwordField.getText();
+                        String username = usernameField.getText();
+                        String password = passwordField.getText();
+                        try {
+                            boolean correct = FrontEndControl.loginDataBaseControl(username, password);
+                            if(correct){
+                                loginFrame.setVisible(false);
+                                BankingPanel.BankingPanel();
+                            }
+                            else{
+                                JOptionPane.showMessageDialog(null, "You have entered an invalid username or password","Error",JOptionPane.ERROR_MESSAGE);
+                            }
+                        } catch (SQLException throwables) {
+                            throwables.printStackTrace();
+                        }
 
-                        if(user.equals("login") && pass.equals("login")){
-                            loginFrame.setVisible(false);
-                            BankingPanel.BankingPanel();
-                        }
-                        else{
-                            JOptionPane.showMessageDialog(null, "You have entered an invalid username or password","Error",JOptionPane.ERROR_MESSAGE);
-                        }
+
                     }
                 }
         );
