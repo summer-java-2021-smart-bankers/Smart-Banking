@@ -1,17 +1,11 @@
-import backend.JDBC.Register;
 import frontend.controls.FrontEndControl;
-import frontend.panels.RegisterPanel;
 
-import java.sql.SQLException;
+import backend.App;
+import java.util.Scanner;
 
 public class Main {
 
-    public static void main(String[] args) throws SQLException {
-//
-//        Register register = new Register();
-//        register.setConnection();
-//        register.register("ivan123", "0000", "ivan123@gmail.com", "plovdiv", "ivan", "petrov");
-
+    public static void main(String[] args) {
 
         /*BackEnd control component*/
 //        Scanner scanner = new Scanner(System.in);
@@ -19,10 +13,7 @@ public class Main {
 //        app.app(args);
 
         /*FrontEnd control component*/
-//        FrontEndControl.FrontEndControl();
-
-
-
+        FrontEndControl.FrontEndControl();
 
     }
 }

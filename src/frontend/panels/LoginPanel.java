@@ -1,8 +1,7 @@
 package frontend.panels;
 
-import frontend.controls.LoginControl;
-
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -12,20 +11,25 @@ public class LoginPanel implements ActionListener {
     private static JLabel passwordLabel;
     private static JTextField usernameField;
     private static JTextField passwordField;
-    private static JButton login;
-    private static JButton register;
-    private static JLabel loginStatus;
+    private static JButton loginButton;
+    private static JButton registerButton;
 
-    public static void loginFrame(){
+
+    public static Component loginFrame(){
+        Font customFont = new Font(Font.SERIF, Font.ITALIC, 15);
+
+        JFrame loginFrame = new JFrame("Smart Banking");
         JPanel loginPanel = new JPanel();
-        JFrame loginFrame = new JFrame();
-        loginFrame.setSize(400, 250);
+        loginFrame.setSize(330, 200);
         loginFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         loginFrame.add(loginPanel);
         loginPanel.setLayout(null);
+        loginPanel.setBackground(new Color(146, 207, 242));
+
 
         usernameLabel = new JLabel("Username:");
         usernameLabel.setBounds(20, 25, 80, 50);
+        usernameLabel.setFont(customFont);
         loginPanel.add(usernameLabel);
 
         usernameField = new JTextField();
@@ -34,43 +38,52 @@ public class LoginPanel implements ActionListener {
 
         passwordLabel = new JLabel("Password:");
         passwordLabel.setBounds(20, 60, 80, 50);
+        passwordLabel.setFont(customFont);
         loginPanel.add(passwordLabel);
 
         passwordField = new JPasswordField();
         passwordField.setBounds(100, 75, 165, 25);
         loginPanel.add(passwordField);
 
-
-        login = new JButton("Login");
-        login.setBounds(185, 110, 100, 25);
-        login.addActionListener(
+        loginButton = new JButton("Login");
+        loginButton.setBounds(200, 110, 100, 25);
+        loginButton.setBackground(new Color(212, 212, 212));
+        loginButton.setFont(customFont);
+        loginButton.addActionListener(
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         String user = usernameField.getText();
                         String pass = passwordField.getText();
-                        LoginControl.LoginButtonControl(user, pass);
+
+                        if(user.equals("login") && pass.equals("login")){
+                            loginFrame.setVisible(false);
+                            BankingPanel.BankingPanel();
+                        }
+                        else{
+                            JOptionPane.showMessageDialog(null, "You have entered an invalid username or password","Error",JOptionPane.ERROR_MESSAGE);
+                        }
                     }
                 }
         );
-        loginPanel.add(login);
+        loginPanel.add(loginButton);
 
-        register = new JButton("Register");
-        register.setBounds(40, 110, 100, 25);
-        register.addActionListener(
+        registerButton = new JButton("New Registration");
+        registerButton.setBounds(20, 110, 150, 25);
+        registerButton.setBackground(new Color(212, 212, 212));
+        registerButton.setFont(customFont);
+        registerButton.addActionListener(
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         RegisterPanel.RegisterButtonControl();
                     }
                 });
-        loginPanel.add(register);
+        loginPanel.add(registerButton);
 
-        loginStatus = new JLabel("");
-        loginStatus.setBounds(20, 130, 300, 25);
-        loginPanel.add(loginStatus);
 
         loginFrame.setVisible(true);
+        return null;
     }
 
     @Override
