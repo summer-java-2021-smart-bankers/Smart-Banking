@@ -5,20 +5,18 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.Scanner;
+import java.math.BigDecimal;
 
 public class CurrencyCalculator {
 
     private static HttpsURLConnection connection;
 
-    private static double getExchangeRate(String apiResponse){
-
-        double exchangeRate;
-
+    private static BigDecimal getExchangeRate(String apiResponse){
         char[] chars = new char[8];
+
         apiResponse.getChars(11,19,chars,0);
         String exchangeRateInString = new String(chars);
-        exchangeRate = Double.parseDouble(exchangeRateInString);
-        System.out.println(exchangeRate);
+        BigDecimal exchangeRate = new BigDecimal(exchangeRateInString);
 
         return exchangeRate;
     }
@@ -29,15 +27,15 @@ public class CurrencyCalculator {
         //String[] currencies = new String[];
         String currencyOne = "EUR";
         String currencyTwo = "BGN";
-        double amountForConversion;
-        double amountAfterConversion;
+        BigDecimal amountForConversion;
+        BigDecimal amountAfterConversion;
 
         System.out.println("Enter first currency:");
         currencyOne = scanner.nextLine();
         System.out.println("Enter second currency:");
         currencyTwo = scanner.nextLine();
         System.out.println("Enter amount you would like to convert:");
-        amountForConversion = scanner.nextDouble();
+        amountForConversion = scanner.nextBigDecimal();
 
 
         String line;
@@ -58,8 +56,8 @@ public class CurrencyCalculator {
         catch (Exception e){
             e.printStackTrace();
         }
-        double exchangeRate = getExchangeRate(responseContent.toString());
-        amountAfterConversion = amountForConversion * exchangeRate;
+        BigDecimal exchangeRate = getExchangeRate(responseContent.toString());
+        amountAfterConversion = amountForConversion.multiply(exchangeRate);
         System.out.println(amountAfterConversion);
 
     }
