@@ -3,13 +3,11 @@ import frontend.controls.FrontEndControl;
 
 import backend.App;
 
-import java.sql.SQLException;
-import java.util.Scanner;
 import backend.API.CurrencyCalculator;
 
 public class Main {
 
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) {
 
         /*BackEnd control component*/
 //        Scanner scanner = new Scanner(System.in);
@@ -17,7 +15,7 @@ public class Main {
 //        app.app(args);
 
         /*FrontEnd control component*/
-//        FrontEndControl.FrontEndControl();
+        //FrontEndControl.FrontEndControl();
         CurrencyCalculator.currencyConverter();
 
 

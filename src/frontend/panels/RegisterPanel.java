@@ -21,40 +21,48 @@ public class RegisterPanel implements ActionListener {
         JTextField newUsernameField;
         JPasswordField newPasswordField;
         JTextField emailField;
-        JTextField cityField;
         JTextField firstNameField;
         JTextField lastNameField;
 
         JButton completeRegisterButton;
 
+        Font customFont = new Font(Font.SERIF, Font.ITALIC, 15);
+
+        JFrame registerFrame = new JFrame("Smart Banking — Register");
         JPanel registerPanel = new JPanel();
-        JFrame registerFrame = new JFrame();
-        registerFrame.setSize(600, 400);
+        registerFrame.setSize(350, 350);
         registerFrame.add(registerPanel);
         registerPanel.setLayout(null);
+        registerPanel.setBackground(new Color(146, 207, 242));
 
         newUsernameLabel = new JLabel("Username:");
         newUsernameLabel.setBounds(20, 20,80,50);
+        newUsernameLabel.setFont(customFont);
         registerPanel.add(newUsernameLabel);
 
         newPasswordLabel = new JLabel("Password:");
         newPasswordLabel.setBounds(20, 55,80,50);
+        newPasswordLabel.setFont(customFont);
         registerPanel.add(newPasswordLabel);
 
         emailTextLabel = new JLabel("E-mail:");
         emailTextLabel.setBounds(20, 90, 80, 50);
+        emailTextLabel.setFont(customFont);
         registerPanel.add(emailTextLabel);
 
         cityTextLabel = new JLabel("City: ");
         cityTextLabel.setBounds(20, 125, 80, 50);
+        cityTextLabel.setFont(customFont);
         registerPanel.add(cityTextLabel);
 
         firstNameLabel = new JLabel("First Name:");
         firstNameLabel.setBounds(20, 160, 80, 50);
+        firstNameLabel.setFont(customFont);
         registerPanel.add(firstNameLabel);
 
         lastNameLabel = new JLabel("Last Name:");
         lastNameLabel.setBounds(20, 195, 80, 50);
+        lastNameLabel.setFont(customFont);
         registerPanel.add(lastNameLabel);
 
         newUsernameField = new JTextField();
@@ -69,9 +77,11 @@ public class RegisterPanel implements ActionListener {
         emailField.setBounds(150, 105, 165, 25);
         registerPanel.add(emailField);
 
-        cityField = new JTextField();
-        cityField.setBounds(150, 140, 165, 25);
-        registerPanel.add(cityField);
+        String[] city = { "","София", "Пловдив", "Варна", "Бургас", "Плевен", "Ловеч", "Стара Загора", "Видин",
+                                "Сандански", "Пазарджик", "Русе"};
+        JComboBox cityBox = new JComboBox(city);
+        cityBox.setBounds(150, 140, 165, 25);
+        registerPanel.add(cityBox);
 
         firstNameField = new JTextField();
         firstNameField.setBounds(150, 175, 165, 25);
@@ -82,7 +92,9 @@ public class RegisterPanel implements ActionListener {
         registerPanel.add(lastNameField);
 
         completeRegisterButton = new JButton("Register");
-        completeRegisterButton.setBounds(200, 275, 165, 25);
+        completeRegisterButton.setBounds(100, 260, 150, 25);
+        completeRegisterButton.setBackground(new Color(212, 212, 212));
+        completeRegisterButton.setFont(customFont);
         completeRegisterButton.addActionListener(
                 new ActionListener() {
                     @Override
@@ -90,7 +102,7 @@ public class RegisterPanel implements ActionListener {
                         String username = newUsernameField.getText();
                         String password = String.valueOf(newPasswordField.getPassword());
                         String email = emailField.getText();
-                        String city = cityField.getText();
+                        String city = cityBox.getSelectedItem().toString();
                         String firstName = firstNameField.getText();
                         String lastName = lastNameField.getText();
 
@@ -99,14 +111,13 @@ public class RegisterPanel implements ActionListener {
                         }
                         else{
                             try {
+                                FrontEndControl.RegisterDataBaseControl(username, password, email, city, firstName, lastName);
                                 FrontEndControl.registerDataBaseControl(username, password, email, city, firstName, lastName);
                                 registerFrame.setVisible(false);
                             } catch (SQLException throwables) {
                                 throwables.printStackTrace();
                             }
                         }
-
-
                     }
                 });
         registerPanel.add(completeRegisterButton);

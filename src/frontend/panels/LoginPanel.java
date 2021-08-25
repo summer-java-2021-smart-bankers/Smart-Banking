@@ -21,14 +21,13 @@ public class LoginPanel implements ActionListener {
     public static Component loginFrame(){
         Font customFont = new Font(Font.SERIF, Font.ITALIC, 15);
 
-        JFrame loginFrame = new JFrame("Smart Banking");
+        JFrame loginFrame = new JFrame("Smart Banking — Login");
         JPanel loginPanel = new JPanel();
         loginFrame.setSize(330, 200);
         loginFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         loginFrame.add(loginPanel);
         loginPanel.setLayout(null);
         loginPanel.setBackground(new Color(146, 207, 242));
-
 
         usernameLabel = new JLabel("Username:");
         usernameLabel.setBounds(20, 25, 80, 50);
