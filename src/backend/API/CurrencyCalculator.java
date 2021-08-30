@@ -21,21 +21,10 @@ public class CurrencyCalculator {
         return exchangeRate;
     }
 
-    public static void currencyConverter(){
-        Scanner scanner = new Scanner(System.in);
+    public static String currencyConverter(String currencyOne, String currencyTwo, String userAmount){
 
-        //String[] currencies = new String[];
-        String currencyOne = "EUR";
-        String currencyTwo = "BGN";
-        BigDecimal amountForConversion;
         BigDecimal amountAfterConversion;
-
-        System.out.println("Enter first currency:");
-        currencyOne = scanner.nextLine();
-        System.out.println("Enter second currency:");
-        currencyTwo = scanner.nextLine();
-        System.out.println("Enter amount you would like to convert:");
-        amountForConversion = scanner.nextBigDecimal();
+        BigDecimal amountForConversion = new BigDecimal(Integer.parseInt(userAmount));
 
 
         String line;
@@ -58,8 +47,10 @@ public class CurrencyCalculator {
         }
         BigDecimal exchangeRate = getExchangeRate(responseContent.toString());
         amountAfterConversion = amountForConversion.multiply(exchangeRate);
-        System.out.println(amountAfterConversion);
 
+        String ConvertedAmount = amountAfterConversion.toString();
+
+        return ConvertedAmount;
     }
 
 

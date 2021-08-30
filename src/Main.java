@@ -4,6 +4,7 @@ import frontend.controls.FrontEndControl;
 import backend.App;
 
 import backend.API.CurrencyCalculator;
+import frontend.panels.*;
 
 public class Main {
 
@@ -16,7 +17,12 @@ public class Main {
 
         /*FrontEnd control component*/
         //FrontEndControl.FrontEndControl();
-        CurrencyCalculator.currencyConverter();
+        //CurrencyCalculator.currencyConverter();
+        BankingPanel.BankingPanel();
+        //MasterCardLimitPanel.MasterCardLimit();
+        //CreditLimitPanel.CreditLimit();
+        //VisaLimitPanel.VisaLimit();
+        //TransferPanel.Transfer();
 
 
     }

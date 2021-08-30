@@ -1,8 +1,14 @@
 package frontend.panels;
 
+import backend.API.CurrencyCalculator;
+import frontend.controls.FrontEndControl;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 public class BankingPanel {
 
@@ -30,6 +36,7 @@ public class BankingPanel {
 
     public static void BankingPanel(){
 
+        //Font welcomeMessageFont = new Font(Font.SERIF, Font.ITALIC, 18);
         Font customFont = new Font(Font.SERIF, Font.ITALIC, 18);
         Border blackLine = BorderFactory.createLineBorder(Color.BLACK);
 
@@ -59,16 +66,40 @@ public class BankingPanel {
         masterCardButton.setBounds(70, 130, 180, 30);
         masterCardButton.setFont(customFont);
         mainProgramPanel.add(masterCardButton);
+        masterCardButton.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        MasterCardLimitPanel.MasterCardLimit();
+                    }
+                }
+        );
 
         visaCardButton = new JButton("Visa Classic");
         visaCardButton.setBounds(70, 180, 180, 30);
         visaCardButton.setFont(customFont);
         mainProgramPanel.add(visaCardButton);
+        visaCardButton.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        VisaLimitPanel.VisaLimit();
+                    }
+                }
+        );
 
         creditCardButton = new JButton("Credit Card");
         creditCardButton.setBounds(70, 230, 180, 30);
         creditCardButton.setFont(customFont);
         mainProgramPanel.add(creditCardButton);
+        creditCardButton.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        CreditLimitPanel.CreditLimit();
+                    }
+                }
+        );
 
 
         mCBalanceLabel = new JLabel("500", SwingConstants.CENTER);
@@ -149,18 +180,37 @@ public class BankingPanel {
         transferButton.setBounds(70, 300, 200, 40);
         transferButton.setFont(customFont);
         mainProgramPanel.add(transferButton);
+        transferButton.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+
+                        TransferPanel.Transfer();
+                    }
+                }
+        );
+
 
         currencyCalculatorButton = new JButton("Валутен калкулатор");
         currencyCalculatorButton.setBounds(390, 300, 200, 40);
         currencyCalculatorButton.setFont(customFont);
         mainProgramPanel.add(currencyCalculatorButton);
+        currencyCalculatorButton.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        CurrencyCalculatorPanel.CurrencyCalculatorFrame();
+                    }
+                }
+        );
+
 
         addressTextLabel = new JLabel("Адреси на клонове на банката");
         addressTextLabel.setBounds(200, 370, 300, 30);
         addressTextLabel.setFont(customFont);
         mainProgramPanel.add(addressTextLabel);
 
-        String[] cities = {" ", "Бургас", "Варна", "Пловдив", "Русе", "София", "Стара Загора"};
+        String cities[] = {" ", "Бургас", "Варна", "Пловдив", "Русе", "София", "Стара Загора"};
         bankAddressBox = new JComboBox(cities);
         bankAddressBox.setBounds(200, 400,240, 30);
         mainProgramPanel.add(bankAddressBox);
@@ -169,6 +219,15 @@ public class BankingPanel {
         logoutButton.setBounds(510, 470, 125, 30);
         logoutButton.setFont(customFont);
         mainProgramPanel.add(logoutButton);
+        logoutButton.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        LoginPanel.loginFrame();
+                        mainProgramFrame.setVisible(false);
+                    }
+                }
+        );
 
         mainProgramFrame.setVisible(true);
 

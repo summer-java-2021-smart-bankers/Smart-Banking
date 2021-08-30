@@ -75,6 +75,14 @@ public class TransferPanel {
         commenceTransfer.setBounds(180, 230, 200, 40);
         commenceTransfer.setFont(customFont);
         transferPanel.add(commenceTransfer);
+        commenceTransfer.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                       System.out.println("Done!");
+                    }
+                }
+        );
 
 
         transferFrame.setVisible(true);
