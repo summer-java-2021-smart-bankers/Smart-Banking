@@ -20,7 +20,7 @@ public class Register {
     }
 
     public void register(String username, String password, String email, String city, String firstName, String lastName) throws SQLException {
-        String query = "INSERT INTO users_info (username, password, `e-mail`, city, `first name`, `last name`)\n" +
+        String query = "INSERT INTO users (username, password, `e-mail`, city, `first name`, `last name`)\n" +
                 "values (?, ?, ?, ?, ?, ?)";
 
         PreparedStatement preparedStatement =connection.prepareStatement(query);

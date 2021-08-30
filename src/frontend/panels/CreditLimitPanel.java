@@ -1,10 +1,14 @@
 package frontend.panels;
 
+import backend.JDBC.Login;
+import backend.users.User;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.math.BigDecimal;
 
 public class CreditLimitPanel {
 
@@ -19,7 +23,11 @@ public class CreditLimitPanel {
     private static JLabel limitPayCurrency;
     private static JButton updateLimit;
 
+    private static User user = new User();
+
     public static void CreditLimit(){
+
+        user = Login.getUser();
 
         Font customFont = new Font(Font.SERIF, Font.ITALIC, 18);
 
@@ -46,12 +54,12 @@ public class CreditLimitPanel {
         limitPay.setFont(customFont);
         creditLimitPanel.add(limitPay);
 
-        limitWithdrawValue = new JLabel("3000");
+        limitWithdrawValue = new JLabel(String.valueOf(user.getCredit().getWithdrawalLimit()));
         limitWithdrawValue.setBounds(230, 100, 100, 30);
         limitWithdrawValue.setFont(customFont);
         creditLimitPanel.add(limitWithdrawValue);
 
-        limitPayValue = new JLabel("3000");
+        limitPayValue = new JLabel(String.valueOf(user.getCredit().getWithdrawalLimit()));
         limitPayValue.setBounds(230, 150, 100, 30);
         limitPayValue.setFont(customFont);
         creditLimitPanel.add(limitPayValue);
@@ -80,6 +88,20 @@ public class CreditLimitPanel {
         updateLimit.setBounds(180, 220, 200, 40);
         updateLimit.setFont(customFont);
         creditLimitPanel.add(updateLimit);
+        updateLimit.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        String newWithdrawValue = newWithdrawLimit.getText();
+                        String newPayValue = newPayLimit.getText();
+                        BigDecimal withdrawBigDecimal = new BigDecimal((Integer.parseInt(newWithdrawValue)));
+                        BigDecimal payBigDecimal = new BigDecimal((Integer.parseInt(newPayValue)));
+                        user.getCredit().setWithdrawalLimit(withdrawBigDecimal);
+                        user.getCredit().setPaymentLimit(payBigDecimal);
+                        creditLimitFrame.setVisible(false);
+                    }
+                }
+        );
 
         creditLimitFrame.setVisible(true);
 

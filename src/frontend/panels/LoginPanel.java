@@ -85,6 +85,7 @@ public class LoginPanel implements ActionListener {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         RegisterPanel.RegisterButtonControl();
+                        loginFrame.setVisible(false);
                     }
                 });
         loginPanel.add(registerButton);

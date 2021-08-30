@@ -112,7 +112,6 @@ public class RegisterPanel implements ActionListener {
                         else{
                             try {
                                 FrontEndControl.RegisterDataBaseControl(username, password, email, city, firstName, lastName);
-                                FrontEndControl.registerDataBaseControl(username, password, email, city, firstName, lastName);
                                 registerFrame.setVisible(false);
                             } catch (SQLException throwables) {
                                 throwables.printStackTrace();

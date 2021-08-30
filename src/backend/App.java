@@ -1,104 +1,107 @@
 package backend;
 
+import backend.JDBC.Login;
 import backend.cards.BankCard;
 import backend.cards.Credit;
 import backend.cards.MasterCard;
 import backend.cards.Visa;
+import backend.users.User;
 
 import java.math.BigDecimal;
+import java.sql.SQLException;
 import java.util.Scanner;
 
 public class App {
 
-    public void app(String[] args) {
+    Login login = new Login();
+    User user = new User();
+
+    public void app(String[] args) throws SQLException {
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Изберете потребител:" +
-                "Иван Петров " +
-                "Георги Шипков" +
-                "Вероника Калъчева");
+        System.out.println("Въведете име и парола:");
 
-        String person = scanner.nextLine();
+        String username = scanner.nextLine();
+        String password = scanner.nextLine();
 
-        if (person.equals("Иван Петров")) {
+        login.setConnection();
+        login.login(username, password);
 
-        }else if (person.equals("Георги Шипков")) {
+        if (login.isSuccessfulLogin()) {
 
-        }else if (person.equals("Вероника Калъчева")) {
+            System.out.println("Изберете една от следните карти:" +
+                    "Master card, " +
+                    "Visa, " +
+                    "Credit");
 
-        }
+            String choice = scanner.nextLine();
 
+            switch (choice) {
+                case "Master card" -> {
+                    MasterCard masterCard = new MasterCard(user.getMasterCard().getBalance()
+                            , user.getMasterCard().getPaymentLimit(), user.getMasterCard().getWithdrawalLimit());
+                    printOptions();
+                    choice = scanner.nextLine();
+                    if (choice.equals("Проверка на баланса")) {
+                        System.out.println(masterCard.getBalance());
+                    } else if (choice.equals("Обновяване на лимита на плащане")) {
+                        System.out.println("Въведете новия лимит на плащане");
+                        BigDecimal paymentLimit = scanner.nextBigDecimal();
+                        masterCard.changePaymentLimit(paymentLimit);
+                        System.out.println(masterCard.getPaymentLimit());
 
-        System.out.println("Изберете една от следните карти:" +
-                "Master card, " +
-                "Visa, " +
-                "Credit");
-
-        String choice = scanner.nextLine();
-
-        switch (choice) {
-            case "Master card" -> {
-                BankCard masterCard = new MasterCard(new BigDecimal("505.50"), new BigDecimal("50")
-                        , new BigDecimal("100"));
-                printOptions();
-                choice = scanner.nextLine();
-                if (choice.equals("Проверка на баланса")) {
-                    System.out.println(masterCard);
-                } else if (choice.equals("Обновяване на лимита на плащане")) {
-                    System.out.println("Въведете новия лимит на плащане");
-                    BigDecimal paymentLimit = scanner.nextBigDecimal();
-                    masterCard.changePaymentLimit(paymentLimit);
-                    System.out.println(masterCard.getPaymentLimit());
-
-                } else if (choice.equals("Обновяване на лимита на теглене")) {
-                    System.out.println("Въведете новия лимит на теглене");
-                    BigDecimal withdrawalLimit = scanner.nextBigDecimal();
-                    masterCard.changeWithdrawalLimit(withdrawalLimit);
-                    System.out.println(masterCard.getWithdrawalLimit());
+                    } else if (choice.equals("Обновяване на лимита на теглене")) {
+                        System.out.println("Въведете новия лимит на теглене");
+                        BigDecimal withdrawalLimit = scanner.nextBigDecimal();
+                        masterCard.changeWithdrawalLimit(withdrawalLimit);
+                        System.out.println(masterCard.getWithdrawalLimit());
+                    }
                 }
-            }
-            case "Visa" -> {
-                BankCard visa = new Visa(new BigDecimal("4369.53"), new BigDecimal("500")
-                        , new BigDecimal("1000"));
-                printOptions();
-                choice = scanner.nextLine();
-                if (choice.equals("Проверка на баланса")) {
-                    System.out.println(visa);
-                } else if (choice.equals("Обновяване на лимита на плащане")) {
-                    System.out.println("Въведете новия лимит на плащане");
-                    BigDecimal paymentLimit = scanner.nextBigDecimal();
-                    visa.changePaymentLimit(paymentLimit);
-                    System.out.println(visa.getPaymentLimit());
+                case "Visa" -> {
+                    BankCard visa = new Visa(user.getVisa().getBalance()
+                            , user.getVisa().getPaymentLimit(), user.getVisa().getWithdrawalLimit());
+                    printOptions();
+                    choice = scanner.nextLine();
+                    if (choice.equals("Проверка на баланса")) {
+                        System.out.println(visa.getBalance());
+                    } else if (choice.equals("Обновяване на лимита на плащане")) {
+                        System.out.println("Въведете новия лимит на плащане");
+                        BigDecimal paymentLimit = scanner.nextBigDecimal();
+                        visa.changePaymentLimit(paymentLimit);
+                        System.out.println(visa.getPaymentLimit());
 
-                } else if (choice.equals("Обновяване на лимита на теглене")) {
-                    System.out.println("Въведете новия лимит на теглене");
-                    BigDecimal withdrawalLimit = scanner.nextBigDecimal();
-                    visa.changeWithdrawalLimit(withdrawalLimit);
-                    System.out.println(visa.getWithdrawalLimit());
+                    } else if (choice.equals("Обновяване на лимита на теглене")) {
+                        System.out.println("Въведете новия лимит на теглене");
+                        BigDecimal withdrawalLimit = scanner.nextBigDecimal();
+                        visa.changeWithdrawalLimit(withdrawalLimit);
+                        System.out.println(visa.getWithdrawalLimit());
+                    }
+
                 }
+                case "Credit" -> {
+                    BankCard credit = new Credit(user.getCredit().getBalance()
+                            , user.getCredit().getPaymentLimit(), user.getCredit().getWithdrawalLimit());
+                    printOptions();
+                    choice = scanner.nextLine();
+                    if (choice.equals("Проверка на баланса")) {
+                        System.out.println(credit.getBalance());
+                    } else if (choice.equals("Обновяване на лимита на плащане")) {
+                        System.out.println("Въведете новия лимит на плащане");
+                        BigDecimal paymentLimit = scanner.nextBigDecimal();
+                        credit.changePaymentLimit(paymentLimit);
+                        System.out.println(credit.getPaymentLimit());
 
-            }
-            case "Credit" -> {
-                BankCard credit = new Credit(new BigDecimal("100000"), new BigDecimal("50")
-                        , new BigDecimal("10000"));
-                printOptions();
-                choice = scanner.nextLine();
-                if (choice.equals("Проверка на баланса")) {
-                    System.out.println(credit);
-                } else if (choice.equals("Обновяване на лимита на плащане")) {
-                    System.out.println("Въведете новия лимит на плащане");
-                    BigDecimal paymentLimit = scanner.nextBigDecimal();
-                    credit.changePaymentLimit(paymentLimit);
-                    System.out.println(credit.getPaymentLimit());
-
-                } else if (choice.equals("Обновяване на лимита на теглене")) {
-                    System.out.println("Въведете новия лимит на теглене");
-                    BigDecimal withdrawalLimit = scanner.nextBigDecimal();
-                    credit.changeWithdrawalLimit(withdrawalLimit);
-                    System.out.println(credit.getWithdrawalLimit());
+                    } else if (choice.equals("Обновяване на лимита на теглене")) {
+                        System.out.println("Въведете новия лимит на теглене");
+                        BigDecimal withdrawalLimit = scanner.nextBigDecimal();
+                        credit.changeWithdrawalLimit(withdrawalLimit);
+                        System.out.println(credit.getWithdrawalLimit());
+                    }
                 }
             }
         }
+
+
     }
 
     public void printOptions() {

@@ -16,9 +16,9 @@ public class Main {
 //        app.app(args);
 
         /*FrontEnd control component*/
-        //FrontEndControl.FrontEndControl();
+        FrontEndControl.FrontEndControl();
         //CurrencyCalculator.currencyConverter();
-        BankingPanel.BankingPanel();
+//        BankingPanel.BankingPanel();
         //MasterCardLimitPanel.MasterCardLimit();
         //CreditLimitPanel.CreditLimit();
         //VisaLimitPanel.VisaLimit();
