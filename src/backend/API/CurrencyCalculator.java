@@ -2,50 +2,77 @@ package backend.API;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Scanner;
 import java.math.BigDecimal;
 
 public class CurrencyCalculator {
 
-    private static HttpsURLConnection connection;
+    private static String getApiResult(String from, String to){
 
-    private static BigDecimal getExchangeRate(String apiResponse){
-        char[] chars = new char[8];
+        URL currencyConverterURL = null;
+        HttpsURLConnection connection = null;
+        BufferedReader inputReader = null;
 
-        apiResponse.getChars(11,19,chars,0);
+        try{
+            currencyConverterURL = new URL("https://v6.exchangerate-api.com/v6/635982881eba68af985c2e3e/pair/"+ from +"/"+ to);
+        }catch (MalformedURLException ex){
+            ex.printStackTrace();
+        }
+
+        try{
+            connection = (HttpsURLConnection)currencyConverterURL.openConnection();
+        }catch (IOException ex){
+            ex.printStackTrace();
+        }
+
+        try{
+            InputStream inputStream = connection.getInputStream();
+            InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+            inputReader = new BufferedReader(inputStreamReader);
+        }catch (IOException ex){
+            ex.printStackTrace();
+        }
+
+        String inputLine;
+        StringBuilder inputStringBuilder = new StringBuilder();
+
+        try{
+            while((inputLine = inputReader.readLine()) != null){
+                inputStringBuilder.append(inputLine);
+            }
+        }catch (IOException ex){
+            ex.printStackTrace();
+        }
+
+        String jsonResult = inputStringBuilder.toString();
+
+        return jsonResult;
+    }
+
+
+    private static BigDecimal getExchangeRateFromJson(String jsonResult){
+        char[] chars = new char[6];
+
+        jsonResult.getChars(372,378,chars,0);
         String exchangeRateInString = new String(chars);
+        System.out.println(exchangeRateInString);
         BigDecimal exchangeRate = new BigDecimal(exchangeRateInString);
 
         return exchangeRate;
     }
 
-    public static String currencyConverter(String currencyOne, String currencyTwo, String userAmount){
+    public static String currencyConverter(String from, String to, String userAmount){
 
-        BigDecimal amountAfterConversion;
         BigDecimal amountForConversion = new BigDecimal(Integer.parseInt(userAmount));
+        BigDecimal amountAfterConversion;
 
+        String jsonResult = getApiResult(from,to);
+        BigDecimal exchangeRate = getExchangeRateFromJson(jsonResult);
 
-        String line;
-        StringBuffer responseContent = new StringBuffer();
-        BufferedReader reader;
-
-        try {
-            URL url = new URL("https://free.currconv.com/api/v7/convert?q="+currencyOne+"_"+currencyTwo+"&compact=ultra&apiKey=cf9eb88d0d990ddba9d1");
-            connection = (HttpsURLConnection) url.openConnection();
-
-            reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-
-            while ((line = reader.readLine()) != null) {
-                responseContent.append(line);
-            }
-            reader.close();
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
-        BigDecimal exchangeRate = getExchangeRate(responseContent.toString());
         amountAfterConversion = amountForConversion.multiply(exchangeRate);
 
         String ConvertedAmount = amountAfterConversion.toString();

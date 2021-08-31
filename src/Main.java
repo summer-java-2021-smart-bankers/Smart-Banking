@@ -1,10 +1,5 @@
-import backend.JDBC.Login;
-import frontend.controls.FrontEndControl;
-
-import backend.App;
-
 import backend.API.CurrencyCalculator;
-import frontend.panels.*;
+import frontend.controls.FrontEndControl;
 
 public class Main {
 
@@ -16,8 +11,8 @@ public class Main {
 //        app.app(args);
 
         /*FrontEnd control component*/
-        FrontEndControl.FrontEndControl();
-        //CurrencyCalculator.currencyConverter();
+//        FrontEndControl.FrontEndControl();
+//        CurrencyCalculator.currencyConverter();
 //        BankingPanel.BankingPanel();
         //MasterCardLimitPanel.MasterCardLimit();
         //CreditLimitPanel.CreditLimit();

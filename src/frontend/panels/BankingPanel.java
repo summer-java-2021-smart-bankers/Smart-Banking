@@ -1,18 +1,13 @@
 package frontend.panels;
 
-import backend.API.CurrencyCalculator;
-import frontend.controls.FrontEndControl;
-
 import backend.JDBC.Login;
 import backend.users.User;
-import backend.users.UserController;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
 
 public class BankingPanel {
 
