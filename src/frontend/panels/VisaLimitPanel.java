@@ -2,6 +2,7 @@ package frontend.panels;
 
 import backend.JDBC.Login;
 import backend.users.User;
+import backend.users.UserController;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -23,11 +24,9 @@ public class VisaLimitPanel {
     private static JLabel limitPayCurrency;
     private static JButton updateLimit;
 
-    private static User user = new User();
+    private static UserController user = new UserController();
 
     public static void VisaLimit(){
-
-        user = Login.getUser();
 
         Font customFont = new Font(Font.SERIF, Font.ITALIC, 18);
 
@@ -54,12 +53,12 @@ public class VisaLimitPanel {
         limitPay.setFont(customFont);
         visaLimitPanel.add(limitPay);
 
-        limitWithdrawValue = new JLabel(String.valueOf(user.getVisa().getWithdrawalLimit()));
+        limitWithdrawValue = new JLabel(String.valueOf(user.getUser().getVisa().getWithdrawalLimit()));
         limitWithdrawValue.setBounds(230, 100, 100, 30);
         limitWithdrawValue.setFont(customFont);
         visaLimitPanel.add(limitWithdrawValue);
 
-        limitPayValue = new JLabel(String.valueOf(user.getVisa().getPaymentLimit()));
+        limitPayValue = new JLabel(String.valueOf(user.getUser().getVisa().getPaymentLimit()));
         limitPayValue.setBounds(230, 150, 100, 30);
         limitPayValue.setFont(customFont);
         visaLimitPanel.add(limitPayValue);
@@ -96,8 +95,8 @@ public class VisaLimitPanel {
                         String newPayValue = newPayLimit.getText();
                         BigDecimal withdrawBigDecimal = new BigDecimal((Integer.parseInt(newWithdrawValue)));
                         BigDecimal payBigDecimal = new BigDecimal((Integer.parseInt(newPayValue)));
-                        user.getVisa().setWithdrawalLimit(withdrawBigDecimal);
-                        user.getVisa().setPaymentLimit(payBigDecimal);
+                        user.getUser().getVisa().setWithdrawalLimit(withdrawBigDecimal);
+                        user.getUser().getVisa().setPaymentLimit(payBigDecimal);
                         visaLimitFrame.setVisible(false);
                     }
                 }

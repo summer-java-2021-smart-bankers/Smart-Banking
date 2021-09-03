@@ -4,11 +4,11 @@ public class UserController implements UserFunctions {
 
     public static User user = new User();
 
-    public static User getUser() {
+    public User getUser() {
         return user;
     }
 
-    public static void setUser(User user) {
+    public void setUser(User user) {
         UserController.user = user;
     }
 

@@ -20,19 +20,25 @@ public class User {
     private Visa visa;
     private Credit credit;
 
-    public void logUser(String username, String password, String email, String city, String firstName, String lastName) {
+    public void logUser(String username, String password, String email, String city, String firstName, String lastName
+            , BigDecimal masterCardBalance, BigDecimal masterCardPaymentLimit, BigDecimal masterCardWithdrawalLimit
+            , BigDecimal visaClassicBalance, BigDecimal visaClassicPaymentLimit, BigDecimal visaClassicWithdrawalLimit
+            , BigDecimal creditCardBalance, BigDecimal creditCardPaymentLimit, BigDecimal creditCardWithdrawalLimit) {
         this.username = username;
         this.password = password;
         this.email = email;
         this.city = city;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.masterCard = new MasterCard(new BigDecimal("500"), new BigDecimal("3000")
-                , new BigDecimal("3000"));
-        this.visa = new Visa(new BigDecimal("3000"), new BigDecimal("3000")
-                , new BigDecimal("3000"));
-        this.credit = new Credit(new BigDecimal("1000"), new BigDecimal("3000")
-                , new BigDecimal("3000"));
+        this.masterCard = new MasterCard(new BigDecimal(String.valueOf(masterCardBalance))
+                , new BigDecimal(String.valueOf(masterCardPaymentLimit))
+                , new BigDecimal(String.valueOf(masterCardWithdrawalLimit)));
+        this.visa = new Visa(new BigDecimal(String.valueOf(visaClassicBalance))
+                , new BigDecimal(String.valueOf(visaClassicPaymentLimit))
+                , new BigDecimal(String.valueOf(visaClassicWithdrawalLimit)));
+        this.credit = new Credit(new BigDecimal(String.valueOf(creditCardBalance))
+                , new BigDecimal(String.valueOf(creditCardPaymentLimit))
+                , new BigDecimal(String.valueOf(creditCardWithdrawalLimit)));
     }
 
     public String getUsername() {
@@ -107,21 +113,4 @@ public class User {
         this.credit = credit;
     }
 
-    private ArrayList<BankCard> bankCards;
-
-    public User() {
-        this.bankCards = new ArrayList<>();
-    }
-
-    public void addBankCard(BankCard bankCard) {
-        this.bankCards.add(bankCard);
-    }
-
-    public ArrayList<BankCard> getBankCard() {
-        return this.bankCards;
-    }
-
-    public void setBankCard(ArrayList<BankCard> bankCards) {
-        this.bankCards = bankCards;
-    }
 }

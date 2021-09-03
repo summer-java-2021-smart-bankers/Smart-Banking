@@ -2,6 +2,7 @@ package frontend.panels;
 
 import backend.JDBC.Login;
 import backend.users.User;
+import backend.users.UserController;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -33,7 +34,7 @@ public class BankingPanel {
 
     private static JButton logoutButton;
 
-    private static User user = new User();
+    private static UserController user = new UserController();
 
     public static void BankingPanel(){
 
@@ -53,8 +54,7 @@ public class BankingPanel {
         welcomeMessage.setFont(customFont);
         mainProgramPanel.add(welcomeMessage);
 
-        user = Login.getUser();
-        JLabel clientName = new JLabel( user.getFirstName()+ " " + user.getLastName() , SwingConstants.RIGHT);
+        JLabel clientName = new JLabel( user.getUser().getFirstName()+ " " + user.getUser().getLastName() , SwingConstants.RIGHT);
         clientName.setBounds(390, 10, 250, 30);
         clientName.setFont(customFont);
         mainProgramPanel.add(clientName);
@@ -104,7 +104,7 @@ public class BankingPanel {
         );
 
 
-        mCBalanceLabel = new JLabel(String.valueOf(user.getMasterCard().getBalance()), SwingConstants.CENTER);
+        mCBalanceLabel = new JLabel(String.valueOf(user.getUser().getMasterCard().getBalance()), SwingConstants.CENTER);
         mCBalanceLabel.setBounds(290, 130, 180, 30);
         mCBalanceLabel.setBorder(blackLine);
         mCBalanceLabel.setOpaque(true);
@@ -120,7 +120,7 @@ public class BankingPanel {
         mCCurrencyLabel.setFont(customFont);
         mainProgramPanel.add(mCCurrencyLabel);
 
-        vBalanceLabel = new JLabel(String.valueOf(user.getVisa().getBalance()), SwingConstants.CENTER);
+        vBalanceLabel = new JLabel(String.valueOf(user.getUser().getVisa().getBalance()), SwingConstants.CENTER);
         vBalanceLabel.setBounds(290, 180, 180, 30);
         vBalanceLabel.setBorder(blackLine);
         vBalanceLabel.setOpaque(true);
@@ -136,7 +136,7 @@ public class BankingPanel {
         vCurrencyLabel.setFont(customFont);
         mainProgramPanel.add(vCurrencyLabel);
 
-        cCBalanceLabel = new JLabel(String.valueOf(user.getCredit().getBalance()), SwingConstants.CENTER);
+        cCBalanceLabel = new JLabel(String.valueOf(user.getUser().getCredit().getBalance()), SwingConstants.CENTER);
         cCBalanceLabel.setBounds(290, 230, 180, 30);
         cCBalanceLabel.setBorder(blackLine);
         cCBalanceLabel.setOpaque(true);

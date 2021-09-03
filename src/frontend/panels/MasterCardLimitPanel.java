@@ -2,6 +2,7 @@ package frontend.panels;
 
 import backend.JDBC.Login;
 import backend.users.User;
+import backend.users.UserController;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -23,11 +24,9 @@ public class MasterCardLimitPanel {
     private static JLabel limitPayCurrency;
     private static JButton updateLimit;
 
-    private static User user = new User();
+    private static UserController user = new UserController();
 
     public static void MasterCardLimit(){
-
-        user = Login.getUser();
 
         Font customFont = new Font(Font.SERIF, Font.ITALIC, 18);
 
@@ -54,12 +53,12 @@ public class MasterCardLimitPanel {
         limitPay.setFont(customFont);
         mastercardLimitPanel.add(limitPay);
 
-        limitWithdrawValue = new JLabel(String.valueOf(user.getMasterCard().getWithdrawalLimit()));
+        limitWithdrawValue = new JLabel(String.valueOf(user.getUser().getMasterCard().getWithdrawalLimit()));
         limitWithdrawValue.setBounds(230, 100, 100, 30);
         limitWithdrawValue.setFont(customFont);
         mastercardLimitPanel.add(limitWithdrawValue);
 
-        limitPayValue = new JLabel(String.valueOf(user.getMasterCard().getPaymentLimit()));
+        limitPayValue = new JLabel(String.valueOf(user.getUser().getMasterCard().getPaymentLimit()));
         limitPayValue.setBounds(230, 150, 100, 30);
         limitPayValue.setFont(customFont);
         mastercardLimitPanel.add(limitPayValue);
@@ -96,8 +95,8 @@ public class MasterCardLimitPanel {
                         String newPayValue = newPayLimit.getText();
                         BigDecimal withdrawBigDecimal = new BigDecimal((Integer.parseInt(newWithdrawValue)));
                         BigDecimal payBigDecimal = new BigDecimal((Integer.parseInt(newPayValue)));
-                        user.getMasterCard().setWithdrawalLimit(withdrawBigDecimal);
-                        user.getMasterCard().setPaymentLimit(payBigDecimal);
+                        user.getUser().getMasterCard().setWithdrawalLimit(withdrawBigDecimal);
+                        user.getUser().getMasterCard().setPaymentLimit(payBigDecimal);
                         mastercardLimitFrame.setVisible(false);
                     }
                 }
