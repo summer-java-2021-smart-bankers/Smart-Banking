@@ -5,7 +5,7 @@ import java.util.Properties;
 
 public class Register {
 
-    private static int countForCards = 1;
+    private static int countForCards;
 
     private static final String DATABASE_URL = "jdbc:mysql://localhost:3306/smart-banking";
     private static final String DATABASE_USERNAME = "root";
@@ -22,6 +22,18 @@ public class Register {
     }
 
     public void register(String username, String password, String email, String city, String firstName, String lastName) throws SQLException {
+
+        String queryForId = "SELECT master_cards.id, users.id\n" +
+                "FROM master_cards\n" +
+                "INNER JOIN users ON master_cards.id = users.id";
+
+        PreparedStatement preparedStatementForId = connection.prepareStatement(queryForId);
+
+        ResultSet resultSetId = preparedStatementForId.executeQuery();
+        while (resultSetId.next()) {
+            countForCards = resultSetId.getInt("id");
+        }
+
         //master_cards
         String queryForMasterCard = "INSERT INTO master_cards(balance, payment_limit, withdrawal_limit)\n" +
                 "VALUES (?,?,?)";
@@ -83,7 +95,7 @@ public class Register {
         preparedStatement.setString(4, city);
         preparedStatement.setString(5, firstName);
         preparedStatement.setString(6, lastName);
-        preparedStatement.setInt(7, countForCards++);
+        preparedStatement.setInt(7, countForCards);
 
         preparedStatement.execute();
 

@@ -78,11 +78,13 @@ public class Login {
             statementGetInfo.setString(1, username);
 
             ResultSet resultGetInfo = statementGetInfo.executeQuery();
+            int userId = 0;
             String userMail = null;
             String userCity = null;
             String userFirstName = null;
             String userLastName = null;
             while (resultGetInfo.next()) {
+                userId = resultGetInfo.getInt("id");
                 userMail = resultGetInfo.getString("e-mail");
                 userCity = resultGetInfo.getString("city");
                 userFirstName = resultGetInfo.getString("first name");
@@ -143,7 +145,7 @@ public class Login {
 
             }
 
-            user.getUser().logUser(username, password, userMail, userCity, userFirstName, userLastName
+            user.getUser().logUser(userId, username, password, userMail, userCity, userFirstName, userLastName
                     , masterCardBalance, masterCardPaymentLimit, masterCardWithdrawalLimit
                     , visaClassicBalance, visaClassicPaymentLimit, visaClassicWithdrawalLimit
                     , creditCardBalance, creditCardPaymentLimit, creditCardWithdrawalLimit);

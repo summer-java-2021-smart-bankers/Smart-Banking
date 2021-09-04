@@ -4,7 +4,7 @@ public interface UserFunctions {
 
     void logOut();
 
-    void paymentLimit();
+    void changePaymentLimit();
 
-    void withdrawalLimit();
+    void changeWithdrawalLimit();
 }

@@ -1,8 +1,10 @@
 package frontend.panels;
 
+import backend.JDBC.ChangeLimit;
 import backend.JDBC.Login;
 import backend.users.User;
 import backend.users.UserController;
+import frontend.controls.FrontEndControl;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -10,6 +12,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.math.BigDecimal;
+import java.sql.SQLException;
 
 public class MasterCardLimitPanel {
 
@@ -98,6 +101,12 @@ public class MasterCardLimitPanel {
                         user.getUser().getMasterCard().setWithdrawalLimit(withdrawBigDecimal);
                         user.getUser().getMasterCard().setPaymentLimit(payBigDecimal);
                         mastercardLimitFrame.setVisible(false);
+                        try {
+                            FrontEndControl.changeWithdrawalLimits("Master card",withdrawBigDecimal,user.getUser().getId());
+                            FrontEndControl.changePaymentLimits("Master card",payBigDecimal,user.getUser().getId());
+                        } catch (SQLException throwables) {
+                            throwables.printStackTrace();
+                        }
                     }
                 }
         );

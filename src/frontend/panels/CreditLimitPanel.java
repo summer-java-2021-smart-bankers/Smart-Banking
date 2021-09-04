@@ -1,8 +1,10 @@
 package frontend.panels;
 
+import backend.JDBC.ChangeLimit;
 import backend.JDBC.Login;
 import backend.users.User;
 import backend.users.UserController;
+import frontend.controls.FrontEndControl;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -10,6 +12,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.math.BigDecimal;
+import java.sql.SQLException;
 
 public class CreditLimitPanel {
 
@@ -98,6 +101,12 @@ public class CreditLimitPanel {
                         user.getUser().getCredit().setWithdrawalLimit(withdrawBigDecimal);
                         user.getUser().getCredit().setPaymentLimit(payBigDecimal);
                         creditLimitFrame.setVisible(false);
+                        try {
+                            FrontEndControl.changeWithdrawalLimits("Credit card",withdrawBigDecimal,user.getUser().getId());
+                            FrontEndControl.changePaymentLimits("Credit card",payBigDecimal,user.getUser().getId());
+                        } catch (SQLException throwables) {
+                            throwables.printStackTrace();
+                        }
                     }
                 }
         );

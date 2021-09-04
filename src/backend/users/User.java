@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 public class User {
 
+    private int id;
     private String username;
     private String password;
     private String email;
@@ -20,10 +21,11 @@ public class User {
     private Visa visa;
     private Credit credit;
 
-    public void logUser(String username, String password, String email, String city, String firstName, String lastName
+    public void logUser(int id, String username, String password, String email, String city, String firstName, String lastName
             , BigDecimal masterCardBalance, BigDecimal masterCardPaymentLimit, BigDecimal masterCardWithdrawalLimit
             , BigDecimal visaClassicBalance, BigDecimal visaClassicPaymentLimit, BigDecimal visaClassicWithdrawalLimit
             , BigDecimal creditCardBalance, BigDecimal creditCardPaymentLimit, BigDecimal creditCardWithdrawalLimit) {
+        this.id = id;
         this.username = username;
         this.password = password;
         this.email = email;
@@ -39,6 +41,14 @@ public class User {
         this.credit = new Credit(new BigDecimal(String.valueOf(creditCardBalance))
                 , new BigDecimal(String.valueOf(creditCardPaymentLimit))
                 , new BigDecimal(String.valueOf(creditCardWithdrawalLimit)));
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getUsername() {

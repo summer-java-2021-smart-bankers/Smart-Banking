@@ -1,6 +1,8 @@
 package backend.users;
 
-public class UserController implements UserFunctions {
+import java.math.BigDecimal;
+
+public class UserController {
 
     public static User user = new User();
 
@@ -12,7 +14,6 @@ public class UserController implements UserFunctions {
         UserController.user = user;
     }
 
-    @Override
     public void logOut() {
         user.setUsername(null);
         user.setPassword(null);
@@ -23,15 +24,5 @@ public class UserController implements UserFunctions {
         user.setMasterCard(null);
         user.setVisa(null);
         user.setCredit(null);
-    }
-
-    @Override
-    public void paymentLimit() {
-
-    }
-
-    @Override
-    public void withdrawalLimit() {
-
     }
 }

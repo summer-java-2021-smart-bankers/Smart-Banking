@@ -1,9 +1,11 @@
 package frontend.controls;
 
+import backend.JDBC.ChangeLimit;
 import backend.JDBC.Login;
 import backend.JDBC.Register;
 import frontend.panels.LoginPanel;
 
+import java.math.BigDecimal;
 import java.sql.SQLException;
 
 public class FrontEndControl {
@@ -34,6 +36,30 @@ public class FrontEndControl {
         boolean correctLogin = login.isCorrectInfo();
 
         return correctLogin;
+    }
+
+    public static void changePaymentLimits(String cardName,BigDecimal paymentLimit, int id) throws SQLException {
+        ChangeLimit changeLimit = new ChangeLimit();
+        changeLimit.setConnection();
+        if (cardName.equals("Master card")) {
+            changeLimit.changeMasterCardPaymentLimit(paymentLimit,id);
+        }else if (cardName.equals("Visa classic")) {
+            changeLimit.changeVisaClassicPaymentLimit(paymentLimit,id);
+        }else if (cardName.equals("Credit card")) {
+            changeLimit.changeCreditCardPaymentLimit(paymentLimit,id);
+        }
+    }
+
+    public static void changeWithdrawalLimits(String cardName,BigDecimal withdrawalLimit, int id) throws SQLException {
+        ChangeLimit changeLimit = new ChangeLimit();
+        changeLimit.setConnection();
+        if (cardName.equals("Master card")) {
+            changeLimit.changeMasterCardWithdrawalLimit(withdrawalLimit,id);
+        }else if (cardName.equals("Visa classic")) {
+            changeLimit.changeVisaClassicWithdrawalLimit(withdrawalLimit,id);
+        }else if (cardName.equals("Credit card")) {
+            changeLimit.changeCreditCardWithdrawalLimit(withdrawalLimit,id);
+        }
     }
 
 
