@@ -24,56 +24,61 @@ public class CurrencyCalculatorPanel implements ActionListener{
     private static JComboBox currencyOneBox;
     private static JComboBox currencyTwoBox;
 
-    public static Component CurrencyCalculatorFrame(){
+    public static Component CurrencyCalculatorPanel(){
 
         String money = "1000";
 
-        Font customFont = new Font(Font.SERIF, Font.ITALIC, 15);
+        Font customFont = new Font(Font.SERIF, Font.BOLD, 18);
+        Font textCustomFont = new Font(Font.SERIF, Font.PLAIN, 18);
         Border blackLine = BorderFactory.createLineBorder(Color.BLACK);
 
-        JFrame currencyCalculatorFrame = new JFrame("Smart Banking — Currency Calculator");
+        ///JFrame currencyCalculatorFrame = new JFrame("Smart Banking — Currency Calculator");
         JPanel currencyCalculatorPanel = new JPanel();
-        currencyCalculatorFrame.setSize(430, 350);
-        currencyCalculatorFrame.add(currencyCalculatorPanel);
+        //currencyCalculatorFrame.setSize(430, 350);
+        //currencyCalculatorFrame.setBounds(600,300,430, 350);
+        //currencyCalculatorFrame.add(currencyCalculatorPanel);
         currencyCalculatorPanel.setLayout(null);
-        currencyCalculatorPanel.setBackground(new Color(146, 207, 242));
+        currencyCalculatorPanel.setBackground(new Color(238, 247, 255));
 
         userAmountLabel = new JLabel("Количество");
-        userAmountLabel.setBounds(80, 60, 100, 25);
+        userAmountLabel.setBounds(65, 60, 100, 25);
         userAmountLabel.setFont(customFont);
         currencyCalculatorPanel.add(userAmountLabel);
 
         userAmountField = new JTextField();
-        userAmountField.setBounds(180, 60, 150, 25);
+        userAmountField.setBounds(180, 60, 150, 30);
+        userAmountField.setFont(textCustomFont);
         currencyCalculatorPanel.add(userAmountField);
 
         currencyOneLabel = new JLabel("От валута");
-        currencyOneLabel.setBounds(80, 100, 100, 25);
+        currencyOneLabel.setBounds(65, 100, 100, 25);
         currencyOneLabel.setFont(customFont);
         currencyCalculatorPanel.add(currencyOneLabel);
 
         currencyTwoLabel = new JLabel("Към валута");
-        currencyTwoLabel.setBounds(80, 140, 100, 25);
+        currencyTwoLabel.setBounds(65, 140, 100, 30);
         currencyTwoLabel.setFont(customFont);
         currencyCalculatorPanel.add(currencyTwoLabel);
 
         String currencies[] = {"", "BGN", "EUR", "USD", "AUD", "RUB", "JPY"};
 
         currencyOneBox = new JComboBox(currencies);
-        currencyOneBox.setBounds(180, 100,150, 25);
+        currencyOneBox.setFont(textCustomFont);
+        currencyOneBox.setBounds(180, 100,150, 30);
         currencyCalculatorPanel.add(currencyOneBox);
 
         currencyTwoBox = new JComboBox(currencies);
-        currencyTwoBox.setBounds(180, 140,150, 25);
+        currencyTwoBox.setFont(textCustomFont);
+        currencyTwoBox.setBounds(180, 140,150, 30);
         currencyCalculatorPanel.add(currencyTwoBox);
 
         conventedAmountDataLabel = new JLabel("Резултат");
-        conventedAmountDataLabel.setBounds(80, 180, 100, 25);
+        conventedAmountDataLabel.setBounds(65, 180, 100, 25);
         conventedAmountDataLabel.setFont(customFont);
         currencyCalculatorPanel.add(conventedAmountDataLabel);
 
         resultAmountLabel = new JLabel("0.00", SwingConstants.CENTER);
-        resultAmountLabel.setBounds(180, 180, 150, 25);
+        resultAmountLabel.setBounds(180, 180, 150, 30);
         resultAmountLabel.setBorder(blackLine);
         resultAmountLabel.setOpaque(true);
         resultAmountLabel.setBackground(Color.white);
@@ -82,7 +87,7 @@ public class CurrencyCalculatorPanel implements ActionListener{
 
 
         convertButton = new JButton("Пресметни");
-        convertButton.setBounds(140, 230, 120, 25);
+        convertButton.setBounds(140, 250, 140, 30);
         convertButton.setBackground(new Color(212, 212, 212));
         convertButton.setFont(customFont);
         convertButton.addActionListener(
@@ -105,8 +110,8 @@ public class CurrencyCalculatorPanel implements ActionListener{
         );
         currencyCalculatorPanel.add(convertButton);
 
-        currencyCalculatorFrame.setVisible(true);
-        return null;
+        //currencyCalculatorFrame.setVisible(true);
+        return currencyCalculatorPanel;
     }
 
     @Override

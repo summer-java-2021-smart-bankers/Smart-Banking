@@ -1,8 +1,6 @@
 package frontend.panels;
 
 import backend.JDBC.Login;
-import backend.users.User;
-import backend.users.UserController;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -34,7 +32,7 @@ public class BankingPanel {
 
     private static JButton logoutButton;
 
-    private static UserController user = new UserController();
+    //private static User user = new User();
 
     public static void BankingPanel(){
 
@@ -45,6 +43,7 @@ public class BankingPanel {
         JFrame mainProgramFrame = new JFrame("Smart Banking — User Interface");
         JPanel mainProgramPanel = new JPanel();
         mainProgramFrame.setSize(670, 555);
+        mainProgramFrame.setBounds(600,300,670, 555);
         mainProgramFrame.add(mainProgramPanel);
         mainProgramPanel.setLayout(null);
         mainProgramPanel.setBackground(new Color(146, 207, 242));
@@ -54,7 +53,9 @@ public class BankingPanel {
         welcomeMessage.setFont(customFont);
         mainProgramPanel.add(welcomeMessage);
 
-        JLabel clientName = new JLabel( user.getUser().getFirstName()+ " " + user.getUser().getLastName() , SwingConstants.RIGHT);
+        //user = Login.getUser();
+        //JLabel clientName = new JLabel( user.getFirstName()+ " " + user.getLastName() , SwingConstants.RIGHT);
+        JLabel clientName = new JLabel( "Жоро" , SwingConstants.RIGHT);
         clientName.setBounds(390, 10, 250, 30);
         clientName.setFont(customFont);
         mainProgramPanel.add(clientName);
@@ -104,7 +105,8 @@ public class BankingPanel {
         );
 
 
-        mCBalanceLabel = new JLabel(String.valueOf(user.getUser().getMasterCard().getBalance()), SwingConstants.CENTER);
+        //mCBalanceLabel = new JLabel(String.valueOf(user.getMasterCard().getBalance()), SwingConstants.CENTER);
+        mCBalanceLabel = new JLabel("3000", SwingConstants.CENTER);
         mCBalanceLabel.setBounds(290, 130, 180, 30);
         mCBalanceLabel.setBorder(blackLine);
         mCBalanceLabel.setOpaque(true);
@@ -120,7 +122,8 @@ public class BankingPanel {
         mCCurrencyLabel.setFont(customFont);
         mainProgramPanel.add(mCCurrencyLabel);
 
-        vBalanceLabel = new JLabel(String.valueOf(user.getUser().getVisa().getBalance()), SwingConstants.CENTER);
+        //vBalanceLabel = new JLabel(String.valueOf(user.getVisa().getBalance()), SwingConstants.CENTER);
+        vBalanceLabel = new JLabel("3000", SwingConstants.CENTER);
         vBalanceLabel.setBounds(290, 180, 180, 30);
         vBalanceLabel.setBorder(blackLine);
         vBalanceLabel.setOpaque(true);
@@ -136,7 +139,8 @@ public class BankingPanel {
         vCurrencyLabel.setFont(customFont);
         mainProgramPanel.add(vCurrencyLabel);
 
-        cCBalanceLabel = new JLabel(String.valueOf(user.getUser().getCredit().getBalance()), SwingConstants.CENTER);
+        //cCBalanceLabel = new JLabel(String.valueOf(user.getCredit().getBalance()), SwingConstants.CENTER);
+        cCBalanceLabel = new JLabel("3000", SwingConstants.CENTER);
         cCBalanceLabel.setBounds(290, 230, 180, 30);
         cCBalanceLabel.setBorder(blackLine);
         cCBalanceLabel.setOpaque(true);
@@ -201,7 +205,7 @@ public class BankingPanel {
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        CurrencyCalculatorPanel.CurrencyCalculatorFrame();
+                        CurrencyCalculatorPanel.CurrencyCalculatorPanel();
                     }
                 }
         );
@@ -225,13 +229,13 @@ public class BankingPanel {
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        LoginPanel.loginFrame();
                         mainProgramFrame.setVisible(false);
+                        CoordinationPanel.CoordinationPanel();
+
                     }
                 }
         );
 
         mainProgramFrame.setVisible(true);
-
     }
 }

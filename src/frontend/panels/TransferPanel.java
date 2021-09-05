@@ -9,82 +9,91 @@ public class TransferPanel {
 
     private static JLabel titleLabel;
 
-    private static JLabel firstNameLabel;
-    private static JLabel lastNameLabel;
+    private static JLabel ibanLabel;
+    private static JLabel fromCardLabel;
     private static JLabel transferSum;
 
-    private static JTextField firstNameFill;
-    private static JTextField lastNameFill;
-    private static JTextField transferSumFill;
+    private static JTextField ibanField;
+    private static JTextField transferSumField;
 
-    private static JButton commenceTransfer;
+    private static JButton commenceTransferButton;
 
-//    private static JDialog invalidFirstName;
-//    private static JDialog invalidLastName;
-//    private static JDialog insufficientFunds;
-//    private static JDialog blankField;
-//    private static JButton closeDialog;
+    private static JComboBox cardsBox;
 
+    public static Component Transfer(){
 
-    public static void Transfer(){
-        Font customFont = new Font(Font.SERIF, Font.ITALIC, 18);
+        Font customFont = new Font(Font.SERIF, Font.BOLD, 18);
 
-        JFrame transferFrame = new JFrame("Smart Banking — Funds Transfer");
         JPanel transferPanel = new JPanel();
-        transferFrame.setSize(580, 330);
-        transferFrame.add(transferPanel);
         transferPanel.setLayout(null);
-        transferPanel.setBackground(new Color(146, 207, 242));
+        transferPanel.setBackground(new Color(238, 247, 255));
 
-        titleLabel = new JLabel("Превод на финанси");
-        titleLabel.setBounds(200, 10 , 800, 50);
+        titleLabel = new JLabel("Паричен превод");
+        titleLabel.setBounds(130, 10 , 800, 50);
         titleLabel.setFont(customFont);
         transferPanel.add(titleLabel);
 
-        firstNameLabel = new JLabel("Име на получател:");
-        firstNameLabel.setBounds(50,80, 190, 30);
-        firstNameLabel.setFont(customFont);
-        transferPanel.add(firstNameLabel);
+        ibanLabel = new JLabel("IBAN на получател:");
+        ibanLabel.setBounds(115,80, 190, 30);
+        ibanLabel.setFont(customFont);
+        transferPanel.add(ibanLabel);
 
-        lastNameLabel = new JLabel("Фамилия на получател:");
-        lastNameLabel.setBounds(50,130, 190, 30);
-        lastNameLabel.setFont(customFont);
-        transferPanel.add(lastNameLabel);
+        fromCardLabel = new JLabel("От сметка");
+        fromCardLabel.setBounds(150,150, 190, 30);
+        fromCardLabel.setFont(customFont);
+        transferPanel.add(fromCardLabel);
 
-        transferSum = new JLabel("Сума за Изпращане:");
-        transferSum.setBounds(50,180, 190, 30);
+        transferSum = new JLabel("Сума за изпращане:");
+        transferSum.setBounds(110,230, 190, 30);
         transferSum.setFont(customFont);
         transferPanel.add(transferSum);
 
-        firstNameFill = new JTextField();
-        firstNameFill.setBounds(300, 80, 170, 30);
-        firstNameFill.setFont(customFont);
-        transferPanel.add(firstNameFill);
+        ibanField = new JTextField();
+        ibanField.setBounds(110, 110, 175, 30);
+        ibanField.setFont(customFont);
+        transferPanel.add(ibanField);
 
-        lastNameFill = new JTextField();
-        lastNameFill.setBounds(300, 130, 170, 30);
-        lastNameFill.setFont(customFont);
-        transferPanel.add(lastNameFill);
+        String cards[] = {" ", "MasterCard", "VisaClassic", "CreditCard"};
+        cardsBox = new JComboBox(cards);
+        cardsBox.setBounds(110, 180,175, 30);
+        cardsBox.setFont(customFont);
+        transferPanel.add(cardsBox);
 
-        transferSumFill = new JTextField();
-        transferSumFill.setBounds(300, 180, 170, 30);
-        transferSumFill.setFont(customFont);
-        transferPanel.add(transferSumFill);
+        transferSumField = new JTextField();
+        transferSumField.setBounds(110, 260, 175, 30);
+        transferSumField.setFont(customFont);
+        transferPanel.add(transferSumField);
 
-        commenceTransfer = new JButton("Преведи");
-        commenceTransfer.setBounds(180, 230, 200, 40);
-        commenceTransfer.setFont(customFont);
-        transferPanel.add(commenceTransfer);
-        commenceTransfer.addActionListener(
+        commenceTransferButton = new JButton("Преведи");
+        commenceTransferButton.setBounds(100, 350, 200, 40);
+        commenceTransferButton.setBackground(new Color(212, 212, 212));
+        commenceTransferButton.setFont(customFont);
+        transferPanel.add(commenceTransferButton);
+        commenceTransferButton.addActionListener(
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
+                        String ibanNumber = ibanField.getText();
+                        String sumNumber = transferSumField.getText();
+                        String card = cardsBox.getSelectedItem().toString();
+
+                        if(ibanNumber.equals("BGN1234") && sumNumber.equals("1000") & card.equals("MasterCard")){
+                            commenceTransferButton.setBackground(new Color(124, 252, 0));
+                            JOptionPane.showMessageDialog(null, "Успешен паричен трансфер","Успешно",JOptionPane.INFORMATION_MESSAGE);
+                            ibanField.setText("");
+                            transferSumField.setText("");
+                            cardsBox.setSelectedIndex(0);
+                        }
+                        else{
+                            commenceTransferButton.setBackground(new Color(220, 20, 60));
+                            JOptionPane.showMessageDialog(null, "Неуспешен паричен трансфер","Грешка",JOptionPane.ERROR_MESSAGE);
+                        }
+
                        System.out.println("Done!");
                     }
                 }
         );
 
-
-        transferFrame.setVisible(true);
+        return transferPanel;
     }
 }

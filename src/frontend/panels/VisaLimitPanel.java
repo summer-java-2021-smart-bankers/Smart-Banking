@@ -1,18 +1,10 @@
 package frontend.panels;
 
-import backend.JDBC.ChangeLimit;
-import backend.JDBC.Login;
-import backend.users.User;
-import backend.users.UserController;
-import frontend.controls.FrontEndControl;
-
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.math.BigDecimal;
-import java.sql.SQLException;
 
 public class VisaLimitPanel {
 
@@ -27,68 +19,68 @@ public class VisaLimitPanel {
     private static JLabel limitPayCurrency;
     private static JButton updateLimit;
 
-    private static UserController user = new UserController();
+    public static Component VisaLimit(){
 
-    public static void VisaLimit(){
+        Font customFontOne = new Font(Font.SERIF, Font.BOLD, 20);
+        Font customFontTwo = new Font(Font.SERIF, Font.BOLD, 16);
+        Font customFontButton = new Font(Font.SERIF, Font.BOLD, 18);
 
-        Font customFont = new Font(Font.SERIF, Font.ITALIC, 18);
+        String currentLimitWithdraw = "3000";
+        String currentLimitPay = "3000";
 
-        JFrame visaLimitFrame = new JFrame("Smart Banking — Visa Classic Control");
         JPanel visaLimitPanel = new JPanel();
-        visaLimitFrame.setSize(580, 330);
-        visaLimitFrame.add(visaLimitPanel);
         visaLimitPanel.setLayout(null);
-        visaLimitPanel.setBackground(new Color(146, 207, 242));
-
+        visaLimitPanel.setBackground(new Color(238, 247, 255));
 
         visaClassic = new JLabel("Visa Classic");
-        visaClassic.setBounds(250, 10 , 800, 50);
-        visaClassic.setFont(customFont);
+        visaClassic.setBounds(150, 0 , 800, 50);
+        visaClassic.setFont(customFontOne);
         visaLimitPanel.add(visaClassic);
 
         limitWithdraw = new JLabel("Лимит на теглене");
-        limitWithdraw.setBounds(50,100, 180, 30);
-        limitWithdraw.setFont(customFont);
+        limitWithdraw.setBounds(20,40, 160, 30);
+        limitWithdraw.setFont(customFontTwo);
         visaLimitPanel.add(limitWithdraw);
 
         limitPay = new JLabel("Лимит на плащане");
-        limitPay.setBounds(50,150, 180, 30);
-        limitPay.setFont(customFont);
+        limitPay.setBounds(20,70, 160, 30);
+        limitPay.setFont(customFontTwo);
         visaLimitPanel.add(limitPay);
 
-        limitWithdrawValue = new JLabel(String.valueOf(user.getUser().getVisa().getWithdrawalLimit()));
-        limitWithdrawValue.setBounds(230, 100, 100, 30);
-        limitWithdrawValue.setFont(customFont);
+        limitWithdrawValue = new JLabel(currentLimitWithdraw);
+        limitWithdrawValue.setBounds(190, 40, 100, 30);
+        limitWithdrawValue.setFont(customFontTwo);
         visaLimitPanel.add(limitWithdrawValue);
 
-        limitPayValue = new JLabel(String.valueOf(user.getUser().getVisa().getPaymentLimit()));
-        limitPayValue.setBounds(230, 150, 100, 30);
-        limitPayValue.setFont(customFont);
+        limitPayValue = new JLabel(currentLimitPay);
+        limitPayValue.setBounds(190, 70, 100, 30);
+        limitPayValue.setFont(customFontTwo);
         visaLimitPanel.add(limitPayValue);
 
         newWithdrawLimit = new JTextField();
-        newWithdrawLimit.setBounds(310, 100, 150, 30);
-        newWithdrawLimit.setFont(customFont);
+        newWithdrawLimit.setBounds(240, 45, 85, 20);
+        newWithdrawLimit.setFont(customFontTwo);
         visaLimitPanel.add(newWithdrawLimit);
 
         newPayLimit = new JTextField();
-        newPayLimit.setBounds(310, 150, 150, 30);
-        newPayLimit.setFont(customFont);
+        newPayLimit.setBounds(240, 75, 85, 20);
+        newPayLimit.setFont(customFontTwo);
         visaLimitPanel.add(newPayLimit);
 
         limitWithdrawCurrency = new JLabel("BGN");
-        limitWithdrawCurrency.setBounds(480, 100, 100, 30);
-        limitWithdrawCurrency.setFont(customFont);
+        limitWithdrawCurrency.setBounds(330, 42, 100, 25);
+        limitWithdrawCurrency.setFont(customFontTwo);
         visaLimitPanel.add(limitWithdrawCurrency);
 
         limitPayCurrency = new JLabel("BGN");
-        limitPayCurrency.setBounds(480, 150, 100, 30);
-        limitPayCurrency.setFont(customFont);
+        limitPayCurrency.setBounds(330, 72, 100, 25);
+        limitPayCurrency.setFont(customFontTwo);
         visaLimitPanel.add(limitPayCurrency);
 
         updateLimit = new JButton("Обнови лимита");
-        updateLimit.setBounds(180, 220, 200, 40);
-        updateLimit.setFont(customFont);
+        updateLimit.setBounds(110, 110, 190, 25);
+        updateLimit.setBackground(new Color(212, 212, 212));
+        updateLimit.setFont(customFontButton);
         visaLimitPanel.add(updateLimit);
         updateLimit.addActionListener(
                 new ActionListener() {
@@ -96,22 +88,38 @@ public class VisaLimitPanel {
                     public void actionPerformed(ActionEvent e) {
                         String newWithdrawValue = newWithdrawLimit.getText();
                         String newPayValue = newPayLimit.getText();
-                        BigDecimal withdrawBigDecimal = new BigDecimal((Integer.parseInt(newWithdrawValue)));
-                        BigDecimal payBigDecimal = new BigDecimal((Integer.parseInt(newPayValue)));
-                        user.getUser().getVisa().setWithdrawalLimit(withdrawBigDecimal);
-                        user.getUser().getVisa().setPaymentLimit(payBigDecimal);
-                        visaLimitFrame.setVisible(false);
-                        try {
-                            FrontEndControl.changeWithdrawalLimits("Visa classic",withdrawBigDecimal,user.getUser().getId());
-                            FrontEndControl.changePaymentLimits("Visa classic",payBigDecimal,user.getUser().getId());
-                        } catch (SQLException throwables) {
-                            throwables.printStackTrace();
+                        boolean flagWithdraw = true;
+                        boolean flagPay = true;
+                        int withdraw = 0;
+                        int pay = 0;
+
+                        if(newWithdrawValue.equals("")){
+                            flagWithdraw = false;
+                        }
+                        if(newPayValue.equals("")){
+                            flagPay = false;
+                        }
+
+                        if(flagWithdraw){
+                            withdraw = Integer.parseInt(newWithdrawValue);
+                        }
+                        if(flagPay){
+                            pay = Integer.parseInt(newPayValue);
+                        }
+
+                        if(withdraw != 0){
+                            limitWithdrawValue.setText(newWithdrawValue);
+                            limitPayValue.setText(currentLimitPay);
+                        }
+                        if(pay != 0){
+                            limitWithdrawValue.setText(currentLimitWithdraw);
+                            limitPayValue.setText(newPayValue);
                         }
                     }
                 }
         );
 
-        visaLimitFrame.setVisible(true);
+        return visaLimitPanel;
 
     }
 }

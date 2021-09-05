@@ -1,5 +1,13 @@
-import backend.API.CurrencyCalculator;
+import backend.JDBC.Login;
 import frontend.controls.FrontEndControl;
+
+import backend.App;
+
+import backend.API.CurrencyCalculator;
+import frontend.panels.*;
+
+import javax.swing.*;
+import java.awt.*;
 
 public class Main {
 
@@ -11,14 +19,7 @@ public class Main {
 //        app.app(args);
 
         /*FrontEnd control component*/
-        FrontEndControl.FrontEndControl();
-//        CurrencyCalculator.currencyConverter();
-//        BankingPanel.BankingPanel();
-        //MasterCardLimitPanel.MasterCardLimit();
-        //CreditLimitPanel.CreditLimit();
-        //VisaLimitPanel.VisaLimit();
-        //TransferPanel.Transfer();
-
-
+          FrontEndControl.run();
+          //CoordinationPanel.CoordinationPanel();
     }
 }

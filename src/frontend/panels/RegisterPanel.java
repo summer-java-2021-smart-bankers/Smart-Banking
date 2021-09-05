@@ -8,9 +8,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
-public class RegisterPanel implements ActionListener {
+public class RegisterPanel{
 
-    public static Component RegisterButtonControl(){
+    public static void RegisterButtonControl(){
         JLabel newUsernameLabel;
         JLabel newPasswordLabel;
         JLabel emailTextLabel;
@@ -26,73 +26,80 @@ public class RegisterPanel implements ActionListener {
 
         JButton completeRegisterButton;
 
-        Font customFont = new Font(Font.SERIF, Font.ITALIC, 15);
+        Font customFont = new Font(Font.SERIF, Font.BOLD, 18);
+        Font textCustomFont = new Font(Font.SERIF, Font.PLAIN, 16);
 
-        JFrame registerFrame = new JFrame("Smart Banking — Register");
+        JFrame registerFrame = new JFrame("SmartBanking — Нова регистрация");
         JPanel registerPanel = new JPanel();
-        registerFrame.setSize(350, 350);
+        registerFrame.setBounds(600,300,390, 350);
         registerFrame.add(registerPanel);
         registerPanel.setLayout(null);
-        registerPanel.setBackground(new Color(146, 207, 242));
+        registerPanel.setBackground(new Color(238, 247, 255));
 
-        newUsernameLabel = new JLabel("Username:");
-        newUsernameLabel.setBounds(20, 20,80,50);
+        newUsernameLabel = new JLabel("Потребителско име");
+        newUsernameLabel.setBounds(20, 20,165,50);
         newUsernameLabel.setFont(customFont);
         registerPanel.add(newUsernameLabel);
 
-        newPasswordLabel = new JLabel("Password:");
-        newPasswordLabel.setBounds(20, 55,80,50);
+        newPasswordLabel = new JLabel("Парола");
+        newPasswordLabel.setBounds(20, 55,120,50);
         newPasswordLabel.setFont(customFont);
         registerPanel.add(newPasswordLabel);
 
-        emailTextLabel = new JLabel("E-mail:");
-        emailTextLabel.setBounds(20, 90, 80, 50);
+        emailTextLabel = new JLabel("E-mail");
+        emailTextLabel.setBounds(20, 90, 120, 50);
         emailTextLabel.setFont(customFont);
         registerPanel.add(emailTextLabel);
 
-        cityTextLabel = new JLabel("City: ");
-        cityTextLabel.setBounds(20, 125, 80, 50);
+        cityTextLabel = new JLabel("Град");
+        cityTextLabel.setBounds(20, 125, 120, 50);
         cityTextLabel.setFont(customFont);
         registerPanel.add(cityTextLabel);
 
-        firstNameLabel = new JLabel("First Name:");
-        firstNameLabel.setBounds(20, 160, 80, 50);
+        firstNameLabel = new JLabel("Име");
+        firstNameLabel.setBounds(20, 160, 120, 50);
         firstNameLabel.setFont(customFont);
         registerPanel.add(firstNameLabel);
 
-        lastNameLabel = new JLabel("Last Name:");
-        lastNameLabel.setBounds(20, 195, 80, 50);
+        lastNameLabel = new JLabel("Фамилия");
+        lastNameLabel.setBounds(20, 195, 120, 50);
         lastNameLabel.setFont(customFont);
         registerPanel.add(lastNameLabel);
 
         newUsernameField = new JTextField();
-        newUsernameField.setBounds(150, 35, 165, 25);
+        newUsernameField.setFont(textCustomFont);
+        newUsernameField.setBounds(200, 35, 165, 25);
         registerPanel.add(newUsernameField);
 
         newPasswordField = new JPasswordField();
-        newPasswordField.setBounds(150, 70, 165, 25);
+        newPasswordField.setFont(textCustomFont);
+        newPasswordField.setBounds(200, 70, 165, 25);
         registerPanel.add(newPasswordField);
 
         emailField = new JTextField();
-        emailField.setBounds(150, 105, 165, 25);
+        emailField.setFont(textCustomFont);
+        emailField.setBounds(200, 105, 165, 25);
         registerPanel.add(emailField);
 
         String[] city = { "","София", "Пловдив", "Варна", "Бургас", "Плевен", "Ловеч", "Стара Загора", "Видин",
-                                "Сандански", "Пазарджик", "Русе"};
+                "Сандански", "Пазарджик", "Русе"};
         JComboBox cityBox = new JComboBox(city);
-        cityBox.setBounds(150, 140, 165, 25);
+        cityBox.setFont(textCustomFont);
+        cityBox.setBounds(200, 140, 165, 25);
         registerPanel.add(cityBox);
 
         firstNameField = new JTextField();
-        firstNameField.setBounds(150, 175, 165, 25);
+        firstNameField.setFont(textCustomFont);
+        firstNameField.setBounds(200, 175, 165, 25);
         registerPanel.add(firstNameField);
 
         lastNameField = new JTextField();
-        lastNameField.setBounds(150, 210, 165,25);
+        lastNameField.setFont(textCustomFont);
+        lastNameField.setBounds(200, 210, 165,25);
         registerPanel.add(lastNameField);
 
-        completeRegisterButton = new JButton("Register");
-        completeRegisterButton.setBounds(100, 260, 150, 25);
+        completeRegisterButton = new JButton("Регистрация");
+        completeRegisterButton.setBounds(100, 260, 150, 30);
         completeRegisterButton.setBackground(new Color(212, 212, 212));
         completeRegisterButton.setFont(customFont);
         completeRegisterButton.addActionListener(
@@ -107,28 +114,23 @@ public class RegisterPanel implements ActionListener {
                         String lastName = lastNameField.getText();
 
                         if(username.equals("") || password.equals("") || email.equals("") || city.equals("") || firstName.equals("") || lastName.equals("")){
-                            JOptionPane.showMessageDialog(null, "You have missed information","Warning",JOptionPane.WARNING_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "Имате непопълнени полета!","Внимание",JOptionPane.WARNING_MESSAGE);
                         }
                         else{
-                            try {
-                                FrontEndControl.RegisterDataBaseControl(username, password, email, city, firstName, lastName);
+//                            try {
+//                                FrontEndControl.RegisterDataBaseControl(username, password, email, city, firstName, lastName);
+//                                registerFrame.setVisible(false);
+//                            } catch (SQLException throwables) {
+//                                throwables.printStackTrace();
+//                            }
                                 registerFrame.setVisible(false);
-                            } catch (SQLException throwables) {
-                                throwables.printStackTrace();
-                            }
+                                LoginPanel.loginFrame();
                         }
                     }
                 });
         registerPanel.add(completeRegisterButton);
 
         registerFrame.setVisible(true);
-
-
-        return null;
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
 
     }
 }

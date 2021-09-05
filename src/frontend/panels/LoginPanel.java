@@ -8,7 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
-public class LoginPanel implements ActionListener {
+public class LoginPanel{
 
     private static JLabel usernameLabel;
     private static JLabel passwordLabel;
@@ -18,37 +18,40 @@ public class LoginPanel implements ActionListener {
     private static JButton registerButton;
 
 
-    public static Component loginFrame(){
-        Font customFont = new Font(Font.SERIF, Font.ITALIC, 15);
+    public static void loginFrame(){
+        Font customFont = new Font(Font.SERIF, Font.BOLD, 18);
+        Font textCustomFont = new Font(Font.SERIF, Font.PLAIN, 16);
 
-        JFrame loginFrame = new JFrame("Smart Banking — Login");
+        JFrame loginFrame = new JFrame("SmartBanking — Вход");
         JPanel loginPanel = new JPanel();
-        loginFrame.setSize(330, 200);
+        loginFrame.setBounds(600,300,400, 250);
         loginFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         loginFrame.add(loginPanel);
         loginPanel.setLayout(null);
-        loginPanel.setBackground(new Color(146, 207, 242));
+        loginPanel.setBackground(new Color(238, 247, 255));
 
-        usernameLabel = new JLabel("Username:");
-        usernameLabel.setBounds(20, 25, 80, 50);
+        usernameLabel = new JLabel("Потребителско име");
+        usernameLabel.setBounds(20, 25, 165, 50);
         usernameLabel.setFont(customFont);
         loginPanel.add(usernameLabel);
 
         usernameField = new JTextField();
-        usernameField.setBounds(100, 40, 165, 25);
+        usernameField.setFont(textCustomFont);
+        usernameField.setBounds(200, 40, 165, 30);
         loginPanel.add(usernameField);
 
-        passwordLabel = new JLabel("Password:");
-        passwordLabel.setBounds(20, 60, 80, 50);
+        passwordLabel = new JLabel("Парола");
+        passwordLabel.setBounds(20, 65, 120, 50);
         passwordLabel.setFont(customFont);
         loginPanel.add(passwordLabel);
 
         passwordField = new JPasswordField();
-        passwordField.setBounds(100, 75, 165, 25);
+        passwordField.setFont(textCustomFont);
+        passwordField.setBounds(200, 80, 165, 30);
         loginPanel.add(passwordField);
 
-        loginButton = new JButton("Login");
-        loginButton.setBounds(200, 110, 100, 25);
+        loginButton = new JButton("Вход");
+        loginButton.setBounds(260, 140, 100, 30);
         loginButton.setBackground(new Color(212, 212, 212));
         loginButton.setFont(customFont);
         loginButton.addActionListener(
@@ -57,18 +60,20 @@ public class LoginPanel implements ActionListener {
                     public void actionPerformed(ActionEvent e) {
                         String username = usernameField.getText();
                         String password = passwordField.getText();
-                        try {
-                            boolean correct = FrontEndControl.loginDataBaseControl(username, password);
-                            if(correct){
-                                loginFrame.setVisible(false);
-                                BankingPanel.BankingPanel();
-                            }
-                            else{
-                                JOptionPane.showMessageDialog(null, "You have entered an invalid username or password","Error",JOptionPane.ERROR_MESSAGE);
-                            }
-                        } catch (SQLException throwables) {
-                            throwables.printStackTrace();
-                        }
+//                        try {
+                            //boolean correct = FrontEndControl.loginDataBaseControl(username, password);
+                            //if(correct){
+                            if(username.equals("admin") && password.equals("admin")){
+                                    loginFrame.setVisible(false);
+                                    CoordinationPanel.CoordinationPanel();
+                                }
+                                else{
+                                    JOptionPane.showMessageDialog(null, "Въвели сте грешно потребителско име или парола!","Грешка",JOptionPane.ERROR_MESSAGE);
+                                }
+//                            }
+//                        } catch (SQLException throwables) {
+//                            throwables.printStackTrace();
+//                        }
 
 
                     }
@@ -76,28 +81,24 @@ public class LoginPanel implements ActionListener {
         );
         loginPanel.add(loginButton);
 
-        registerButton = new JButton("New Registration");
-        registerButton.setBounds(20, 110, 150, 25);
+        registerButton = new JButton("Нова Регистрация");
+        registerButton.setBounds(40, 140, 190, 30);
         registerButton.setBackground(new Color(212, 212, 212));
         registerButton.setFont(customFont);
         registerButton.addActionListener(
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        RegisterPanel.RegisterButtonControl();
                         loginFrame.setVisible(false);
+                        RegisterPanel.RegisterButtonControl();
+
                     }
                 });
         loginPanel.add(registerButton);
 
 
         loginFrame.setVisible(true);
-        return null;
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-
-    }
 }
 
