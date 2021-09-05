@@ -2,6 +2,9 @@ package frontend.panels;
 
 import frontend.controls.FrontEndControl;
 
+import backend.users.User;
+import backend.users.UserController;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -9,7 +12,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 
+
+
 public class CoordinationPanel{
+
+    private static UserController user = new UserController();
 
     public static Component CoordinationPanel(){
 
@@ -21,7 +28,7 @@ public class CoordinationPanel{
 
         //Main JFrame
         Font customFont = new Font(Font.SERIF, Font.BOLD, 18);
-        JFrame mainFrame = new JFrame("SmartBanking");
+        JFrame mainFrame = new JFrame("SmartBanking — " + user.getUser().getFirstName()+ " " + user.getUser().getLastName());
         mainFrame.setBounds(650,200,400, 500);
 
         //Coordination Panel

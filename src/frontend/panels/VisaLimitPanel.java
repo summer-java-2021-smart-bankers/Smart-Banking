@@ -1,10 +1,18 @@
 package frontend.panels;
 
+import backend.JDBC.ChangeLimit;
+import backend.JDBC.Login;
+import backend.users.User;
+import backend.users.UserController;
+import frontend.controls.FrontEndControl;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.math.BigDecimal;
+import java.sql.SQLException;
 
 public class VisaLimitPanel {
 
@@ -19,14 +27,13 @@ public class VisaLimitPanel {
     private static JLabel limitPayCurrency;
     private static JButton updateLimit;
 
+    private static UserController user = new UserController();
+
     public static Component VisaLimit(){
 
         Font customFontOne = new Font(Font.SERIF, Font.BOLD, 20);
         Font customFontTwo = new Font(Font.SERIF, Font.BOLD, 16);
         Font customFontButton = new Font(Font.SERIF, Font.BOLD, 18);
-
-        String currentLimitWithdraw = "3000";
-        String currentLimitPay = "3000";
 
         JPanel visaLimitPanel = new JPanel();
         visaLimitPanel.setLayout(null);
@@ -47,12 +54,12 @@ public class VisaLimitPanel {
         limitPay.setFont(customFontTwo);
         visaLimitPanel.add(limitPay);
 
-        limitWithdrawValue = new JLabel(currentLimitWithdraw);
+        limitWithdrawValue = new JLabel(String.valueOf(user.getUser().getVisa().getWithdrawalLimit()));
         limitWithdrawValue.setBounds(190, 40, 100, 30);
         limitWithdrawValue.setFont(customFontTwo);
         visaLimitPanel.add(limitWithdrawValue);
 
-        limitPayValue = new JLabel(currentLimitPay);
+        limitPayValue = new JLabel(String.valueOf(user.getUser().getVisa().getPaymentLimit()));
         limitPayValue.setBounds(190, 70, 100, 30);
         limitPayValue.setFont(customFontTwo);
         visaLimitPanel.add(limitPayValue);
@@ -88,8 +95,16 @@ public class VisaLimitPanel {
                     public void actionPerformed(ActionEvent e) {
                         String newWithdrawValue = newWithdrawLimit.getText();
                         String newPayValue = newPayLimit.getText();
+
+                        BigDecimal withdrawBigDecimal = new BigDecimal((Integer.parseInt(newWithdrawValue)));
+                        BigDecimal payBigDecimal = new BigDecimal((Integer.parseInt(newPayValue)));
+
+                        BigDecimal currentWithdrawBigDecimal = new BigDecimal((Integer.parseInt(String.valueOf(user.getUser().getVisa().getWithdrawalLimit()))));
+                        BigDecimal currentPayBigDecimal = new BigDecimal((Integer.parseInt(String.valueOf(user.getUser().getVisa().getPaymentLimit()))));
+
                         boolean flagWithdraw = true;
                         boolean flagPay = true;
+
                         int withdraw = 0;
                         int pay = 0;
 
@@ -107,19 +122,33 @@ public class VisaLimitPanel {
                             pay = Integer.parseInt(newPayValue);
                         }
 
+                        if(withdraw != 0 && pay != 0){
+                            try {
+                                FrontEndControl.changeWithdrawalLimits("Visa classic", withdrawBigDecimal, user.getUser().getId());
+                                FrontEndControl.changePaymentLimits("Visa classic", payBigDecimal, user.getUser().getId());
+                            } catch (SQLException throwables) {
+                                throwables.printStackTrace();
+                            }
+                        }
                         if(withdraw != 0){
-                            limitWithdrawValue.setText(newWithdrawValue);
-                            limitPayValue.setText(currentLimitPay);
+                            try {
+                                FrontEndControl.changeWithdrawalLimits("Visa classic", withdrawBigDecimal, user.getUser().getId());
+                                FrontEndControl.changePaymentLimits("Visa classic", currentPayBigDecimal, user.getUser().getId());
+                            } catch (SQLException throwables) {
+                                throwables.printStackTrace();
+                            }
                         }
                         if(pay != 0){
-                            limitWithdrawValue.setText(currentLimitWithdraw);
-                            limitPayValue.setText(newPayValue);
+                            try {
+                                FrontEndControl.changeWithdrawalLimits("Visa classic", currentWithdrawBigDecimal, user.getUser().getId());
+                                FrontEndControl.changePaymentLimits("Visa classic", payBigDecimal, user.getUser().getId());
+                            } catch (SQLException throwables) {
+                                throwables.printStackTrace();
+                            }
                         }
                     }
                 }
         );
-
         return visaLimitPanel;
-
     }
 }

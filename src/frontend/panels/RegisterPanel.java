@@ -117,14 +117,12 @@ public class RegisterPanel{
                             JOptionPane.showMessageDialog(null, "Имате непопълнени полета!","Внимание",JOptionPane.WARNING_MESSAGE);
                         }
                         else{
-//                            try {
-//                                FrontEndControl.RegisterDataBaseControl(username, password, email, city, firstName, lastName);
-//                                registerFrame.setVisible(false);
-//                            } catch (SQLException throwables) {
-//                                throwables.printStackTrace();
-//                            }
+                            try {
+                                FrontEndControl.RegisterDataBaseControl(username, password, email, city, firstName, lastName);
                                 registerFrame.setVisible(false);
-                                LoginPanel.loginFrame();
+                            } catch (SQLException throwables) {
+                                throwables.printStackTrace();
+                            }
                         }
                     }
                 });

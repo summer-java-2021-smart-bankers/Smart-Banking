@@ -60,22 +60,18 @@ public class LoginPanel{
                     public void actionPerformed(ActionEvent e) {
                         String username = usernameField.getText();
                         String password = passwordField.getText();
-//                        try {
-                            //boolean correct = FrontEndControl.loginDataBaseControl(username, password);
-                            //if(correct){
-                            if(username.equals("admin") && password.equals("admin")){
-                                    loginFrame.setVisible(false);
-                                    CoordinationPanel.CoordinationPanel();
-                                }
-                                else{
-                                    JOptionPane.showMessageDialog(null, "Въвели сте грешно потребителско име или парола!","Грешка",JOptionPane.ERROR_MESSAGE);
-                                }
-//                            }
-//                        } catch (SQLException throwables) {
-//                            throwables.printStackTrace();
-//                        }
-
-
+                        try {
+                            boolean correct = FrontEndControl.loginDataBaseControl(username, password);
+                            if(correct){
+                                loginFrame.setVisible(false);
+                                CoordinationPanel.CoordinationPanel();
+                            }
+                            else{
+                                JOptionPane.showMessageDialog(null, "Въвели сте грешно потребителско име или парола!","Грешка",JOptionPane.ERROR_MESSAGE);
+                            }
+                        } catch (SQLException throwables) {
+                            throwables.printStackTrace();
+                        }
                     }
                 }
         );
@@ -91,14 +87,10 @@ public class LoginPanel{
                     public void actionPerformed(ActionEvent e) {
                         loginFrame.setVisible(false);
                         RegisterPanel.RegisterButtonControl();
-
                     }
                 });
         loginPanel.add(registerButton);
 
-
         loginFrame.setVisible(true);
     }
-
 }
-

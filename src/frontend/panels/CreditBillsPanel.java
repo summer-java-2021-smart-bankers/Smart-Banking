@@ -1,6 +1,8 @@
 package frontend.panels;
 
 import backend.JDBC.Login;
+import backend.users.User;
+import backend.users.UserController;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -14,17 +16,11 @@ public class CreditBillsPanel {
 
     private static JLabel allBalanceLabel;
     private static JLabel mCBalanceLabel;
-    private static JLabel vBalanceLabel;
-
-
     private static JLabel allCurrencyLabel;
-    private static JLabel mCCurrencyLabel;
-    private static JLabel vCurrencyLabel;
-
 
     private static JButton logoutButton;
 
-
+    private static UserController user = new UserController();
 
     public static void CreditBillsPanel(){
 
@@ -51,9 +47,7 @@ public class CreditBillsPanel {
         mainProgramPanel.add(totalFundsLabel);
 
 
-
-
-        allBalanceLabel = new JLabel("3000", SwingConstants.CENTER);
+        allBalanceLabel = new JLabel(String.valueOf(user.getUser().getCredit().getBalance()), SwingConstants.CENTER);
         allBalanceLabel.setBounds(290, 40, 180, 30);
         allBalanceLabel.setBorder(blackLine);
         allBalanceLabel.setOpaque(true);

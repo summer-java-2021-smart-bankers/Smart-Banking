@@ -1,6 +1,8 @@
 package frontend.panels;
 
 import backend.JDBC.Login;
+import backend.users.User;
+import backend.users.UserController;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -21,10 +23,9 @@ public class MainBillsPanel {
     private static JLabel mCCurrencyLabel;
     private static JLabel vCurrencyLabel;
 
-
     private static JButton logoutButton;
 
-
+    private static UserController user = new UserController();
 
     public static void MainBillsPanel(){
 
@@ -55,8 +56,14 @@ public class MainBillsPanel {
         totalFundsLabel.setFont(customFont);
         mainProgramPanel.add(totalFundsLabel);
 
+        String mc = mCBalanceLabel.getText();
+        String visaClassic = vBalanceLabel.getText();
 
-        allBalanceLabel = new JLabel("3000", SwingConstants.CENTER);
+        int masterCardCurrency = Integer.parseInt(mc);
+        int visaCurrency = Integer.parseInt(visaClassic);
+        int total = masterCardCurrency + visaCurrency;
+
+        allBalanceLabel = new JLabel(String.valueOf(total), SwingConstants.CENTER);
         allBalanceLabel.setBounds(290, 40, 180, 30);
         allBalanceLabel.setBorder(blackLine);
         allBalanceLabel.setOpaque(true);
@@ -72,8 +79,7 @@ public class MainBillsPanel {
         allCurrencyLabel.setFont(customFont);
         mainProgramPanel.add(allCurrencyLabel);
 
-
-        mCBalanceLabel = new JLabel("3000", SwingConstants.CENTER);
+        mCBalanceLabel = new JLabel(String.valueOf(user.getUser().getMasterCard().getBalance()), SwingConstants.CENTER);
         mCBalanceLabel.setBounds(290, 90, 180, 30);
         mCBalanceLabel.setBorder(blackLine);
         mCBalanceLabel.setOpaque(true);
@@ -89,7 +95,7 @@ public class MainBillsPanel {
         mCCurrencyLabel.setFont(customFont);
         mainProgramPanel.add(mCCurrencyLabel);
 
-        vBalanceLabel = new JLabel("3000", SwingConstants.CENTER);
+        vBalanceLabel = new JLabel(String.valueOf(user.getUser().getVisa().getBalance()), SwingConstants.CENTER);
         vBalanceLabel.setBounds(290, 140, 180, 30);
         vBalanceLabel.setBorder(blackLine);
         vBalanceLabel.setOpaque(true);
