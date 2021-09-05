@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="smart-banking@localhost" uuid="99943257-9a58-4527-8c21-9aaa2a200b05">
+    <data-source source="LOCAL" name="smart_banking@smart-banking.cqjpytyw3ekv.us-east-2.rds.amazonaws.com" uuid="5db518a3-653b-4ea5-8290-8abdf37d605a">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:3306/smart-banking</jdbc-url>
+      <jdbc-url>jdbc:mysql://smart-banking.cqjpytyw3ekv.us-east-2.rds.amazonaws.com:3306/smart_banking</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>

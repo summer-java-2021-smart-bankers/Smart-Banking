@@ -5,11 +5,9 @@ import java.util.Properties;
 
 public class Register {
 
-    private static int countForCards;
-
-    private static final String DATABASE_URL = "jdbc:mysql://localhost:3306/smart-banking";
+    private static final String DATABASE_URL = "jdbc:mysql://smart-banking.cqjpytyw3ekv.us-east-2.rds.amazonaws.com:3306/smart_banking";
     private static final String DATABASE_USERNAME = "root";
-    private static final String DATABASE_PASSWORD = "0000";
+    private static final String DATABASE_PASSWORD = "SqlAdmin";
 
     private Connection connection;
 
@@ -22,18 +20,6 @@ public class Register {
     }
 
     public void register(String username, String password, String email, String city, String firstName, String lastName) throws SQLException {
-
-        String queryForId = "SELECT master_cards.id, users.id\n" +
-                "FROM master_cards\n" +
-                "INNER JOIN users ON master_cards.id = users.id";
-
-        PreparedStatement preparedStatementForId = connection.prepareStatement(queryForId);
-
-        ResultSet resultSetId = preparedStatementForId.executeQuery();
-        while (resultSetId.next()) {
-            countForCards = resultSetId.getInt("id");
-        }
-
         //master_cards
         String queryForMasterCard = "INSERT INTO master_cards(balance, payment_limit, withdrawal_limit)\n" +
                 "VALUES (?,?,?)";
@@ -70,6 +56,18 @@ public class Register {
 
         preparedStatementForCreditCard.execute();
 
+
+        //id
+        int countForCards = 0;
+        String queryForId = "SELECT MAX(id)\n" +
+                "FROM master_cards;";
+
+        PreparedStatement preparedStatementForId = connection.prepareStatement(queryForId);
+
+        ResultSet resultSetId = preparedStatementForId.executeQuery();
+        while (resultSetId.next()) {
+            countForCards = resultSetId.getInt("MAX(id)");
+        }
 
         //cards
         String queryForMoney = "INSERT INTO cards(master_card, visa_classic, credit_card)\n" +

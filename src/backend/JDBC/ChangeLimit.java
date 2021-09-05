@@ -11,9 +11,9 @@ import java.util.Properties;
 
 public class ChangeLimit {
 
-    private static final String DATABASE_URL = "jdbc:mysql://localhost:3306/smart-banking";
+    private static final String DATABASE_URL = "jdbc:mysql://smart-banking.cqjpytyw3ekv.us-east-2.rds.amazonaws.com:3306/smart_banking";
     private static final String DATABASE_USERNAME = "root";
-    private static final String DATABASE_PASSWORD = "0000";
+    private static final String DATABASE_PASSWORD = "SqlAdmin";
 
     private Connection connection;
     private static UserController user = new UserController();
