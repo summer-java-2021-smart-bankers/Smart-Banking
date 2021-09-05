@@ -2,6 +2,7 @@ package frontend.controls;
 
 import backend.JDBC.Login;
 import backend.JDBC.Register;
+import backend.JDBC.TransferMoney;
 import frontend.panels.*;
 
 import backend.JDBC.ChangeLimit;
@@ -61,5 +62,11 @@ public class FrontEndControl {
         }else if (cardName.equals("Credit card")) {
             changeLimit.changeCreditCardWithdrawalLimit(withdrawalLimit,id);
         }
+    }
+
+    public static void transferMoney(String iban, int currentUserId, String fromCard, BigDecimal money) throws SQLException {
+        TransferMoney transferMoney = new TransferMoney();
+        transferMoney.setConnection();
+        transferMoney.transferMoney(iban,currentUserId,fromCard,money);
     }
 }

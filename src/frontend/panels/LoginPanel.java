@@ -1,5 +1,6 @@
 package frontend.panels;
 
+import backend.users.UserController;
 import frontend.controls.FrontEndControl;
 
 import javax.swing.*;
@@ -16,6 +17,8 @@ public class LoginPanel{
     private static JTextField passwordField;
     private static JButton loginButton;
     private static JButton registerButton;
+
+    private static UserController user = new UserController();
 
 
     public static void loginFrame(){

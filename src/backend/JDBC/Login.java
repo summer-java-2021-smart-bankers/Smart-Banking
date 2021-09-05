@@ -94,27 +94,33 @@ public class Login {
             //master card
             String queryForMasterCard = "SELECT master_cards.*, users.id\n" +
                     "FROM master_cards\n" +
-                    "INNER JOIN users ON master_cards.id = users.id";
+                    "INNER JOIN users ON master_cards.id = users.id\n" +
+                    "WHERE master_cards.id = ?";
 
             PreparedStatement statementForMasterCard = connection.prepareStatement(queryForMasterCard);
+
+            statementForMasterCard.setInt(1, userId);
 
             ResultSet resultForMasterCard = statementForMasterCard.executeQuery();
             BigDecimal masterCardBalance = new BigDecimal("0.00");
             BigDecimal masterCardPaymentLimit = new BigDecimal("0.00");
             BigDecimal masterCardWithdrawalLimit = new BigDecimal("0.00");
+
             while (resultForMasterCard.next()) {
                 masterCardBalance = resultForMasterCard.getBigDecimal("balance");
                 masterCardPaymentLimit = resultForMasterCard.getBigDecimal("payment_limit");
                 masterCardWithdrawalLimit = resultForMasterCard.getBigDecimal("withdrawal_limit");
-
             }
 
             //visa classic
             String queryForVisaClassic = "SELECT visa_classic.*, users.id\n" +
                     "FROM visa_classic\n" +
-                    "INNER JOIN users ON visa_classic.id = users.id";
+                    "INNER JOIN users ON visa_classic.id = users.id\n" +
+                    "WHERE visa_classic.id = ?";
 
             PreparedStatement statementForVisaClassic = connection.prepareStatement(queryForVisaClassic);
+
+            statementForVisaClassic.setInt(1, userId);
 
             ResultSet resultForVisaClassic = statementForVisaClassic.executeQuery();
             BigDecimal visaClassicBalance = new BigDecimal("0.00");
@@ -130,9 +136,12 @@ public class Login {
             //credit card
             String queryForCreditCard = "SELECT credit_cards.*, users.id\n" +
                     "FROM credit_cards\n" +
-                    "INNER JOIN users ON credit_cards.id = users.id";
+                    "INNER JOIN users ON credit_cards.id = users.id\n" +
+                    "WHERE credit_cards.id = ?";
 
             PreparedStatement statementForCreditCard = connection.prepareStatement(queryForCreditCard);
+
+            statementForCreditCard.setInt(1, userId);
 
             ResultSet resultForCreditCard = statementForCreditCard.executeQuery();
             BigDecimal creditCardBalance = new BigDecimal("0.00");

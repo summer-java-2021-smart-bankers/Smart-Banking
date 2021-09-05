@@ -29,7 +29,7 @@ public class MasterCardLimitPanel {
 
     private static UserController user = new UserController();
 
-    public static Component MasterCardLimit(){
+    public static Component MasterCardLimit() {
 
         Font customFontOne = new Font(Font.SERIF, Font.BOLD, 20);
         Font customFontTwo = new Font(Font.SERIF, Font.BOLD, 16);
@@ -40,17 +40,17 @@ public class MasterCardLimitPanel {
         mastercardLimitPanel.setBackground(new Color(238, 247, 255));
 
         masterCard = new JLabel("MasterCard");
-        masterCard.setBounds(150, 0 , 800, 50);
+        masterCard.setBounds(150, 0, 800, 50);
         masterCard.setFont(customFontOne);
         mastercardLimitPanel.add(masterCard);
 
         limitWithdraw = new JLabel("Лимит на теглене");
-        limitWithdraw.setBounds(20,40, 160, 30);
+        limitWithdraw.setBounds(20, 40, 160, 30);
         limitWithdraw.setFont(customFontTwo);
         mastercardLimitPanel.add(limitWithdraw);
 
         limitPay = new JLabel("Лимит на плащане");
-        limitPay.setBounds(20,70, 160, 30);
+        limitPay.setBounds(20, 70, 160, 30);
         limitPay.setFont(customFontTwo);
         mastercardLimitPanel.add(limitPay);
 
@@ -96,52 +96,51 @@ public class MasterCardLimitPanel {
                         String newWithdrawValue = newWithdrawLimit.getText();
                         String newPayValue = newPayLimit.getText();
 
-                        BigDecimal withdrawBigDecimal = new BigDecimal((Integer.parseInt(newWithdrawValue)));
-                        BigDecimal payBigDecimal = new BigDecimal((Integer.parseInt(newPayValue)));
-
-                        BigDecimal currentWithdrawBigDecimal = new BigDecimal((Integer.parseInt(String.valueOf(user.getUser().getMasterCard().getWithdrawalLimit()))));
-                        BigDecimal currentPayBigDecimal = new BigDecimal((Integer.parseInt(String.valueOf(user.getUser().getMasterCard().getPaymentLimit()))));
-
                         boolean flagWithdraw = true;
                         boolean flagPay = true;
+
+                        BigDecimal withdrawBigDecimal = BigDecimal.valueOf(0);
+                        BigDecimal payBigDecimal = BigDecimal.valueOf(0);
 
                         int withdraw = 0;
                         int pay = 0;
 
-                        if(newWithdrawValue.equals("")){
+                        if (newWithdrawValue.equals("")) {
                             flagWithdraw = false;
                         }
-                        if(newPayValue.equals("")){
+                        if (newPayValue.equals("")) {
                             flagPay = false;
                         }
 
-                        if(flagWithdraw){
+                        if (flagWithdraw) {
+                            withdrawBigDecimal = new BigDecimal((Integer.parseInt(newWithdrawValue)));
                             withdraw = Integer.parseInt(newWithdrawValue);
                         }
-                        if(flagPay){
+                        if (flagPay) {
+                            payBigDecimal = new BigDecimal((Integer.parseInt(newPayValue)));
                             pay = Integer.parseInt(newPayValue);
                         }
 
-                        if(withdraw != 0 && pay != 0){
+                        if (withdraw != 0 && pay != 0) {
                             try {
-                                FrontEndControl.changeWithdrawalLimits("Master card",withdrawBigDecimal,user.getUser().getId());
-                                FrontEndControl.changePaymentLimits("Master card",payBigDecimal,user.getUser().getId());
+                                FrontEndControl.changeWithdrawalLimits("Master card", withdrawBigDecimal, user.getUser().getId());
+                                FrontEndControl.changePaymentLimits("Master card", payBigDecimal, user.getUser().getId());
+                                limitWithdrawValue.setText(newWithdrawValue);
+                                limitPayValue.setText(newPayValue);
                             } catch (SQLException throwables) {
                                 throwables.printStackTrace();
                             }
-                        }
-                        if(withdraw != 0){
+                        } else if (withdraw != 0) {
                             try {
-                                FrontEndControl.changeWithdrawalLimits("Master card",withdrawBigDecimal,user.getUser().getId());
-                                FrontEndControl.changePaymentLimits("Master card",currentPayBigDecimal,user.getUser().getId());
+                                FrontEndControl.changeWithdrawalLimits("Master card", withdrawBigDecimal, user.getUser().getId());
+                                limitWithdrawValue.setText(newWithdrawValue);
                             } catch (SQLException throwables) {
                                 throwables.printStackTrace();
                             }
-                        }
-                        if(pay != 0){
+                        } else if (pay != 0) {
                             try {
-                                FrontEndControl.changeWithdrawalLimits("Master card",currentWithdrawBigDecimal,user.getUser().getId());
-                                FrontEndControl.changePaymentLimits("Master card",payBigDecimal,user.getUser().getId());
+                                FrontEndControl.changePaymentLimits("Master card", payBigDecimal, user.getUser().getId());
+                                limitPayValue.setText(newPayValue);
                             } catch (SQLException throwables) {
                                 throwables.printStackTrace();
                             }

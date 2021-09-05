@@ -56,29 +56,6 @@ public class MainBillsPanel {
         totalFundsLabel.setFont(customFont);
         mainProgramPanel.add(totalFundsLabel);
 
-        String mc = mCBalanceLabel.getText();
-        String visaClassic = vBalanceLabel.getText();
-
-        int masterCardCurrency = Integer.parseInt(mc);
-        int visaCurrency = Integer.parseInt(visaClassic);
-        int total = masterCardCurrency + visaCurrency;
-
-        allBalanceLabel = new JLabel(String.valueOf(total), SwingConstants.CENTER);
-        allBalanceLabel.setBounds(290, 40, 180, 30);
-        allBalanceLabel.setBorder(blackLine);
-        allBalanceLabel.setOpaque(true);
-        allBalanceLabel.setBackground(Color.white);
-        allBalanceLabel.setFont(customFont);
-        mainProgramPanel.add(allBalanceLabel);
-
-        allCurrencyLabel = new JLabel("BGN", SwingConstants.CENTER);
-        allCurrencyLabel.setBounds(490, 40, 100, 30);
-        allCurrencyLabel.setBorder(blackLine);
-        allCurrencyLabel.setOpaque(true);
-        allCurrencyLabel.setBackground(Color.white);
-        allCurrencyLabel.setFont(customFont);
-        mainProgramPanel.add(allCurrencyLabel);
-
         mCBalanceLabel = new JLabel(String.valueOf(user.getUser().getMasterCard().getBalance()), SwingConstants.CENTER);
         mCBalanceLabel.setBounds(290, 90, 180, 30);
         mCBalanceLabel.setBorder(blackLine);
@@ -111,6 +88,28 @@ public class MainBillsPanel {
         vCurrencyLabel.setFont(customFont);
         mainProgramPanel.add(vCurrencyLabel);
 
+        String mc = mCBalanceLabel.getText();
+        String visaClassic = vBalanceLabel.getText();
+
+        int masterCardCurrency = Integer.parseInt(mc);
+        int visaCurrency = Integer.parseInt(visaClassic);
+        int total = masterCardCurrency + visaCurrency;
+
+        allBalanceLabel = new JLabel(String.valueOf(total), SwingConstants.CENTER);
+        allBalanceLabel.setBounds(290, 40, 180, 30);
+        allBalanceLabel.setBorder(blackLine);
+        allBalanceLabel.setOpaque(true);
+        allBalanceLabel.setBackground(Color.white);
+        allBalanceLabel.setFont(customFont);
+        mainProgramPanel.add(allBalanceLabel);
+
+        allCurrencyLabel = new JLabel("BGN", SwingConstants.CENTER);
+        allCurrencyLabel.setBounds(490, 40, 100, 30);
+        allCurrencyLabel.setBorder(blackLine);
+        allCurrencyLabel.setOpaque(true);
+        allCurrencyLabel.setBackground(Color.white);
+        allCurrencyLabel.setFont(customFont);
+        mainProgramPanel.add(allCurrencyLabel);
 
         logoutButton = new JButton("Изход");
         logoutButton.setBounds(540, 210, 100, 30);

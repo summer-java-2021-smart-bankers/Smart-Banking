@@ -1,5 +1,7 @@
 package backend.JDBC;
 
+import backend.tools.Util;
+
 import java.sql.*;
 import java.util.Properties;
 
@@ -82,8 +84,12 @@ public class Register {
         preparedStatementForMoney.execute();
 
         //user
-        String query = "INSERT INTO users (username, password, `e-mail`, city, `first name`, `last name`, `id_cards`)\n" +
-                "VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+        String s = "BGN";
+        int random = Util.randomNumber(100000,999999);
+        String iban = s + random;
+        String query = "INSERT INTO users (username, password, `e-mail`, city, `first name`, `last name`, `id_cards`, `iban`)\n" +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         PreparedStatement preparedStatement = connection.prepareStatement(query);
 
@@ -94,6 +100,7 @@ public class Register {
         preparedStatement.setString(5, firstName);
         preparedStatement.setString(6, lastName);
         preparedStatement.setInt(7, countForCards);
+        preparedStatement.setString(8, iban);
 
         preparedStatement.execute();
 
