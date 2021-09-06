@@ -70,7 +70,8 @@ public class FrontEndControl {
         transferMoney.transferMoney(iban,currentUserId,fromCard,money);
         boolean isCorrectIban = transferMoney.isCorrectIban();
         boolean isHaveMoney = transferMoney.isHaveMoney();
+        boolean isOtherUser = transferMoney.isOtherUser();
 
-        return isCorrectIban && isHaveMoney;
+        return isCorrectIban && isHaveMoney && isOtherUser;
     }
 }
