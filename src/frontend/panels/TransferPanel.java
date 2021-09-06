@@ -88,7 +88,14 @@ public class TransferPanel {
                         try {
                             boolean correct = FrontEndControl.transferMoney(ibanNumber, user.getUser().getId(), card, sumNumberBigDecimal);
                             if (correct) {
-                                user.getUser().getMasterCard().setBalance(user.getUser().getMasterCard().getBalance().subtract(sumNumberBigDecimal));
+                                if (card.equals("MasterCard")) {
+                                    user.getUser().getMasterCard().setBalance(user.getUser().getMasterCard().getBalance().subtract(sumNumberBigDecimal));
+                                }else if (card.equals("VisaClassic")) {
+                                    user.getUser().getVisa().setBalance(user.getUser().getVisa().getBalance().subtract(sumNumberBigDecimal));
+                                }else if (card.equals("CreditCard")) {
+                                    user.getUser().getCredit().setBalance(user.getUser().getCredit().getBalance().subtract(sumNumberBigDecimal));
+                                }
+
                                 commenceTransferButton.setBackground(new Color(124, 252, 0));
                                 JOptionPane.showMessageDialog(null, "Успешен паричен трансфер", "Успешно", JOptionPane.INFORMATION_MESSAGE);
                                 ibanField.setText("");
