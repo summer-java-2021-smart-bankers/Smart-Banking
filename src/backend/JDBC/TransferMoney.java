@@ -3,10 +3,7 @@ package backend.JDBC;
 import backend.users.UserController;
 
 import java.math.BigDecimal;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.Properties;
 
 public class TransferMoney {
@@ -18,6 +15,25 @@ public class TransferMoney {
     private Connection connection;
     private static UserController user = new UserController();
 
+    private boolean isCorrectIban = false;
+    private boolean haveMoney = false;
+
+    public boolean isCorrectIban() {
+        return isCorrectIban;
+    }
+
+    public void setCorrectIban(boolean correctIban) {
+        isCorrectIban = correctIban;
+    }
+
+    public boolean isHaveMoney() {
+        return haveMoney;
+    }
+
+    public void setHaveMoney(boolean haveMoney) {
+        this.haveMoney = haveMoney;
+    }
+
     public void setConnection() throws SQLException {
         Properties properties = new Properties();
         properties.setProperty("user", DATABASE_USERNAME);
@@ -27,95 +43,176 @@ public class TransferMoney {
     }
 
     public void transferMoney(String iban, int currentUserId, String fromCard, BigDecimal money) throws SQLException {
-        if (fromCard.equals("MasterCard")) {
-            //current user - money
-            String queryForUpdateUserBalance = "UPDATE master_cards\n" +
-                    "SET balance = balance - ?\n" +
-                    "WHERE id = ?;";
 
-            PreparedStatement preparedStatementForUpdateUserBalance = connection.prepareStatement(queryForUpdateUserBalance);
+        //check iban is correct
+        String queryForIban = "SELECT * FROM users\n" +
+                "WHERE iban = ?";
 
-            preparedStatementForUpdateUserBalance.setBigDecimal(1, money);
-            preparedStatementForUpdateUserBalance.setInt(2, currentUserId);
+        PreparedStatement preparedStatementForIban = connection.prepareStatement(queryForIban);
 
-//            preparedStatementForUpdateUserBalance.execute();
+        preparedStatementForIban.setString(1, iban);
 
-            //receiver user + money
-            String queryForUpdateReceiverBalance = "UPDATE master_cards\n" +
-                    "INNER JOIN users ON master_cards.id = users.id\n" +
-                    "SET balance = balance + ?\n" +
-                    "WHERE users.iban = ?;";
+        ResultSet resultSetForIban = preparedStatementForIban.executeQuery();
 
-            PreparedStatement preparedStatementForUpdateReceiverBalance = connection.prepareStatement(queryForUpdateReceiverBalance);
+        isCorrectIban = false;
+        String ibanFromDb;
 
-            preparedStatementForUpdateReceiverBalance.setBigDecimal(1, money);
-            preparedStatementForUpdateReceiverBalance.setString(2, iban);
-
-            if (preparedStatementForUpdateReceiverBalance.execute()) {
-                preparedStatementForUpdateUserBalance.execute();
-            }
-
-
-        }else if (fromCard.equals("VisaClassic")) {
-            //current user - money
-            String queryForUpdateUserBalance = "UPDATE visa_classic\n" +
-                    "SET balance = balance - ?\n" +
-                    "WHERE id = ?;";
-
-            PreparedStatement preparedStatementForUpdateUserBalance = connection.prepareStatement(queryForUpdateUserBalance);
-
-            preparedStatementForUpdateUserBalance.setBigDecimal(1, money);
-            preparedStatementForUpdateUserBalance.setInt(2, currentUserId);
-
-//            preparedStatementForUpdateUserBalance.execute();
-
-            //receiver user + money
-            String queryForUpdateReceiverBalance = "UPDATE master_cards\n" +
-                    "INNER JOIN users ON master_cards.id = users.id\n" +
-                    "SET balance = balance + ?\n" +
-                    "WHERE users.iban = ?;";
-
-            PreparedStatement preparedStatementForUpdateReceiverBalance = connection.prepareStatement(queryForUpdateReceiverBalance);
-
-            preparedStatementForUpdateReceiverBalance.setBigDecimal(1, money);
-            preparedStatementForUpdateReceiverBalance.setString(2, iban);
-
-//            preparedStatementForUpdateReceiverBalance.execute();
-
-            if (preparedStatementForUpdateReceiverBalance.execute()) {
-                preparedStatementForUpdateUserBalance.execute();
-            }
-        }else if (fromCard.equals("CreditCard")) {
-            //current user - money
-            String queryForUpdateUserBalance = "UPDATE credit_cards\n" +
-                    "SET balance = balance - ?\n" +
-                    "WHERE id = ?;";
-
-            PreparedStatement preparedStatementForUpdateUserBalance = connection.prepareStatement(queryForUpdateUserBalance);
-
-            preparedStatementForUpdateUserBalance.setBigDecimal(1, money);
-            preparedStatementForUpdateUserBalance.setInt(2, currentUserId);
-
-//            preparedStatementForUpdateUserBalance.execute();
-
-            //receiver user + money
-            String queryForUpdateReceiverBalance = "UPDATE master_cards\n" +
-                    "INNER JOIN users ON master_cards.id = users.id\n" +
-                    "SET balance = balance + ?\n" +
-                    "WHERE users.iban = ?;";
-
-            PreparedStatement preparedStatementForUpdateReceiverBalance = connection.prepareStatement(queryForUpdateReceiverBalance);
-
-            preparedStatementForUpdateReceiverBalance.setBigDecimal(1, money);
-            preparedStatementForUpdateReceiverBalance.setString(2, iban);
-
-//            preparedStatementForUpdateReceiverBalance.execute();
-
-            if (preparedStatementForUpdateReceiverBalance.execute()) {
-                preparedStatementForUpdateUserBalance.execute();
+        while (resultSetForIban.next()) {
+            ibanFromDb = resultSetForIban.getString("iban");
+            if (ibanFromDb.equals(iban)) {
+                isCorrectIban = true;
+                break;
             }
         }
 
-    }
+        if (isCorrectIban) {
+            if (fromCard.equals("MasterCard")) {
 
+                //check user have this money
+                String queryForMoney = "SELECT master_cards.*, users.id\n" +
+                        "FROM master_cards\n" +
+                        "INNER JOIN users ON master_cards.id = users.id\n" +
+                        "WHERE master_cards.id = ?";
+
+                PreparedStatement preparedStatementForMoney = connection.prepareStatement(queryForMoney);
+
+                preparedStatementForMoney.setInt(1, currentUserId);
+
+                ResultSet resultSetForMoney = preparedStatementForMoney.executeQuery();
+
+                haveMoney = false;
+                BigDecimal userMoney;
+
+                while (resultSetForMoney.next()) {
+                    userMoney = resultSetForMoney.getBigDecimal("balance");
+                    if (userMoney.compareTo(money) >= 0) {
+                        haveMoney = true;
+                    }
+                }
+
+                if (haveMoney) {
+                    //current user - money
+                    String queryForUpdateUserBalance = "UPDATE master_cards\n" +
+                            "SET balance = balance - ?\n" +
+                            "WHERE id = ?;";
+
+                    PreparedStatement preparedStatementForUpdateUserBalance = connection.prepareStatement(queryForUpdateUserBalance);
+
+                    preparedStatementForUpdateUserBalance.setBigDecimal(1, money);
+                    preparedStatementForUpdateUserBalance.setInt(2, currentUserId);
+
+                    preparedStatementForUpdateUserBalance.execute();
+
+                    //receiver user + money
+                    String queryForUpdateReceiverBalance = "UPDATE master_cards\n" +
+                            "INNER JOIN users ON master_cards.id = users.id\n" +
+                            "SET balance = balance + ?\n" +
+                            "WHERE users.iban = ?;";
+
+                    PreparedStatement preparedStatementForUpdateReceiverBalance = connection.prepareStatement(queryForUpdateReceiverBalance);
+
+                    preparedStatementForUpdateReceiverBalance.setBigDecimal(1, money);
+                    preparedStatementForUpdateReceiverBalance.setString(2, iban);
+
+                    preparedStatementForUpdateReceiverBalance.execute();
+                }
+            } else if (fromCard.equals("VisaClassic")) {
+                //check user have this money
+                String queryForMoney = "SELECT visa_classic.*, users.id\n" +
+                        "FROM visa_classic\n" +
+                        "INNER JOIN users ON visa_classic.id = users.id\n" +
+                        "WHERE visa_classic.id = ?";
+
+                PreparedStatement preparedStatementForMoney = connection.prepareStatement(queryForMoney);
+
+                preparedStatementForMoney.setInt(1, currentUserId);
+
+                ResultSet resultSetForMoney = preparedStatementForMoney.executeQuery();
+
+                haveMoney = false;
+                BigDecimal userMoney = BigDecimal.valueOf(0);
+
+                while (resultSetForMoney.next()) {
+                    userMoney = resultSetForMoney.getBigDecimal("balance");
+                    if (userMoney.compareTo(money) >= 0) {
+                        haveMoney = true;
+                    }
+                }
+
+                if (haveMoney) {
+                    //current user - money
+                    String queryForUpdateUserBalance = "UPDATE visa_classic\n" +
+                            "SET balance = balance - ?\n" +
+                            "WHERE id = ?;";
+
+                    PreparedStatement preparedStatementForUpdateUserBalance = connection.prepareStatement(queryForUpdateUserBalance);
+
+                    preparedStatementForUpdateUserBalance.setBigDecimal(1, money);
+                    preparedStatementForUpdateUserBalance.setInt(2, currentUserId);
+
+                    preparedStatementForUpdateUserBalance.execute();
+                    //receiver user + money
+                    String queryForUpdateReceiverBalance = "UPDATE master_cards\n" +
+                            "INNER JOIN users ON master_cards.id = users.id\n" +
+                            "SET balance = balance + ?\n" +
+                            "WHERE users.iban = ?;";
+
+                    PreparedStatement preparedStatementForUpdateReceiverBalance = connection.prepareStatement(queryForUpdateReceiverBalance);
+
+                    preparedStatementForUpdateReceiverBalance.setBigDecimal(1, money);
+                    preparedStatementForUpdateReceiverBalance.setString(2, iban);
+
+                    preparedStatementForUpdateReceiverBalance.execute();
+                }
+            } else if (fromCard.equals("CreditCard")) {
+                //check user have this money
+                String queryForMoney = "SELECT credit_cards.*, users.id\n" +
+                        "FROM credit_cards\n" +
+                        "INNER JOIN users ON credit_cards.id = users.id\n" +
+                        "WHERE credit_cards.id = ?";
+
+                PreparedStatement preparedStatementForMoney = connection.prepareStatement(queryForMoney);
+
+                preparedStatementForMoney.setInt(1, currentUserId);
+
+                ResultSet resultSetForMoney = preparedStatementForMoney.executeQuery();
+
+                haveMoney = false;
+                BigDecimal userMoney = BigDecimal.valueOf(0);
+
+                while (resultSetForMoney.next()) {
+                    userMoney = resultSetForMoney.getBigDecimal("balance");
+                    if (userMoney.compareTo(money) >= 0) {
+                        haveMoney = true;
+                    }
+                }
+
+                if (haveMoney) {
+                    //current user - money
+                    String queryForUpdateUserBalance = "UPDATE credit_cards\n" +
+                            "SET balance = balance - ?\n" +
+                            "WHERE id = ?;";
+
+                    PreparedStatement preparedStatementForUpdateUserBalance = connection.prepareStatement(queryForUpdateUserBalance);
+
+                    preparedStatementForUpdateUserBalance.setBigDecimal(1, money);
+                    preparedStatementForUpdateUserBalance.setInt(2, currentUserId);
+
+                    preparedStatementForUpdateUserBalance.execute();
+                    //receiver user + money
+                    String queryForUpdateReceiverBalance = "UPDATE master_cards\n" +
+                            "INNER JOIN users ON master_cards.id = users.id\n" +
+                            "SET balance = balance + ?\n" +
+                            "WHERE users.iban = ?;";
+
+                    PreparedStatement preparedStatementForUpdateReceiverBalance = connection.prepareStatement(queryForUpdateReceiverBalance);
+
+                    preparedStatementForUpdateReceiverBalance.setBigDecimal(1, money);
+                    preparedStatementForUpdateReceiverBalance.setString(2, iban);
+
+                    preparedStatementForUpdateReceiverBalance.execute();
+                }
+            }
+        }
+    }
 }

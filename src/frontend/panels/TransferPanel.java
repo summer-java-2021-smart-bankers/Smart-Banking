@@ -86,16 +86,19 @@ public class TransferPanel {
                         String card = cardsBox.getSelectedItem().toString();
 
                         try {
-                            FrontEndControl.transferMoney(ibanNumber, user.getUser().getId(), card, sumNumberBigDecimal);
-                            user.getUser().getMasterCard().setBalance(user.getUser().getMasterCard().getBalance().subtract(sumNumberBigDecimal));
-                            commenceTransferButton.setBackground(new Color(124, 252, 0));
-                            JOptionPane.showMessageDialog(null, "Успешен паричен трансфер", "Успешно", JOptionPane.INFORMATION_MESSAGE);
-                            ibanField.setText("");
-                            transferSumField.setText("");
-                            cardsBox.setSelectedIndex(0);
+                            boolean correct = FrontEndControl.transferMoney(ibanNumber, user.getUser().getId(), card, sumNumberBigDecimal);
+                            if (correct) {
+                                user.getUser().getMasterCard().setBalance(user.getUser().getMasterCard().getBalance().subtract(sumNumberBigDecimal));
+                                commenceTransferButton.setBackground(new Color(124, 252, 0));
+                                JOptionPane.showMessageDialog(null, "Успешен паричен трансфер", "Успешно", JOptionPane.INFORMATION_MESSAGE);
+                                ibanField.setText("");
+                                transferSumField.setText("");
+                                cardsBox.setSelectedIndex(0);
+                            } else {
+                                commenceTransferButton.setBackground(new Color(220, 20, 60));
+                                JOptionPane.showMessageDialog(null, "Неуспешен паричен трансфер", "Грешка", JOptionPane.ERROR_MESSAGE);
+                            }
                         } catch (SQLException throwables) {
-                            commenceTransferButton.setBackground(new Color(220, 20, 60));
-                            JOptionPane.showMessageDialog(null, "Неуспешен паричен трансфер", "Грешка", JOptionPane.ERROR_MESSAGE);
                             throwables.printStackTrace();
                         }
 

@@ -64,9 +64,13 @@ public class FrontEndControl {
         }
     }
 
-    public static void transferMoney(String iban, int currentUserId, String fromCard, BigDecimal money) throws SQLException {
+    public static boolean transferMoney(String iban, int currentUserId, String fromCard, BigDecimal money) throws SQLException {
         TransferMoney transferMoney = new TransferMoney();
         transferMoney.setConnection();
         transferMoney.transferMoney(iban,currentUserId,fromCard,money);
+        boolean isCorrectIban = transferMoney.isCorrectIban();
+        boolean isHaveMoney = transferMoney.isHaveMoney();
+
+        return isCorrectIban && isHaveMoney;
     }
 }
