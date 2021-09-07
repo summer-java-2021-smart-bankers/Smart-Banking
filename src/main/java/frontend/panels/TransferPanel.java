@@ -1,3 +1,4 @@
+
 package frontend.panels;
 
 import backend.users.UserController;
@@ -82,39 +83,40 @@ public class TransferPanel {
                     public void actionPerformed(ActionEvent e) {
                         String ibanNumber = ibanField.getText();
                         String sumNumber = transferSumField.getText();
-                        BigDecimal sumNumberBigDecimal = new BigDecimal((Integer.parseInt(sumNumber)));
                         String card = cardsBox.getSelectedItem().toString();
 
                         try {
-                            FrontEndControl.transferMoney(ibanNumber, user.getUser().getId(), card, sumNumberBigDecimal);
-                            user.getUser().getMasterCard().setBalance(user.getUser().getMasterCard().getBalance().subtract(sumNumberBigDecimal));
-                            commenceTransferButton.setBackground(new Color(124, 252, 0));
-                            JOptionPane.showMessageDialog(null, "Успешен паричен трансфер", "Успешно", JOptionPane.INFORMATION_MESSAGE);
-                            ibanField.setText("");
-                            transferSumField.setText("");
-                            cardsBox.setSelectedIndex(0);
+                            if(ibanNumber.equals("") || sumNumber.equals("") || card.equals("")){
+                                commenceTransferButton.setBackground(new Color(220, 20, 60));
+                                JOptionPane.showMessageDialog(null, "Неуспешен паричен трансфер", "Грешка", JOptionPane.ERROR_MESSAGE);
+                            }else{
+                                BigDecimal sumNumberBigDecimal = new BigDecimal((Integer.parseInt(sumNumber)));
+                                boolean correct = FrontEndControl.transferMoney(ibanNumber, user.getUser().getId(), card, sumNumberBigDecimal);
+                                if (correct) {
+                                    if (card.equals("MasterCard")) {
+                                        user.getUser().getMasterCard().setBalance(user.getUser().getMasterCard().getBalance().subtract(sumNumberBigDecimal));
+                                    }else if (card.equals("VisaClassic")) {
+                                        user.getUser().getVisa().setBalance(user.getUser().getVisa().getBalance().subtract(sumNumberBigDecimal));
+                                    }else if (card.equals("CreditCard")) {
+                                        user.getUser().getCredit().setBalance(user.getUser().getCredit().getBalance().subtract(sumNumberBigDecimal));
+                                    }
+
+                                    commenceTransferButton.setBackground(new Color(124, 252, 0));
+                                    JOptionPane.showMessageDialog(null, "Успешен паричен трансфер", "Успешно", JOptionPane.INFORMATION_MESSAGE);
+                                    ibanField.setText("");
+                                    transferSumField.setText("");
+                                    cardsBox.setSelectedIndex(0);
+                                } else {
+                                    commenceTransferButton.setBackground(new Color(220, 20, 60));
+                                    JOptionPane.showMessageDialog(null, "Неуспешен паричен трансфер", "Грешка", JOptionPane.ERROR_MESSAGE);
+                                }
+                            }
                         } catch (SQLException throwables) {
-                            commenceTransferButton.setBackground(new Color(220, 20, 60));
-                            JOptionPane.showMessageDialog(null, "Неуспешен паричен трансфер", "Грешка", JOptionPane.ERROR_MESSAGE);
                             throwables.printStackTrace();
                         }
-
-//                        if (ibanNumber.equals("BGN1234") && sumNumber.equals("1000") & card.equals("MasterCard")) {
-//                            commenceTransferButton.setBackground(new Color(124, 252, 0));
-//                            JOptionPane.showMessageDialog(null, "Успешен паричен трансфер", "Успешно", JOptionPane.INFORMATION_MESSAGE);
-//                            ibanField.setText("");
-//                            transferSumField.setText("");
-//                            cardsBox.setSelectedIndex(0);
-//                        } else {
-//                            commenceTransferButton.setBackground(new Color(220, 20, 60));
-//                            JOptionPane.showMessageDialog(null, "Неуспешен паричен трансфер", "Грешка", JOptionPane.ERROR_MESSAGE);
-//                        }
-
-                        System.out.println("Done!");
                     }
                 }
         );
-
         return transferPanel;
     }
 }

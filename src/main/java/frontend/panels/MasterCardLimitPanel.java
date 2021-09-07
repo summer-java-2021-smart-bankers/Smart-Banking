@@ -1,13 +1,8 @@
 package frontend.panels;
 
-import backend.JDBC.ChangeLimit;
-import backend.JDBC.Login;
-import backend.users.User;
 import backend.users.UserController;
 import frontend.controls.FrontEndControl;
-
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -127,6 +122,8 @@ public class MasterCardLimitPanel {
                                 FrontEndControl.changePaymentLimits("Master card", payBigDecimal, user.getUser().getId());
                                 limitWithdrawValue.setText(newWithdrawValue);
                                 limitPayValue.setText(newPayValue);
+                                newWithdrawLimit.setText("");
+                                newPayLimit.setText("");
                             } catch (SQLException throwables) {
                                 throwables.printStackTrace();
                             }
@@ -134,6 +131,7 @@ public class MasterCardLimitPanel {
                             try {
                                 FrontEndControl.changeWithdrawalLimits("Master card", withdrawBigDecimal, user.getUser().getId());
                                 limitWithdrawValue.setText(newWithdrawValue);
+                                newWithdrawLimit.setText("");
                             } catch (SQLException throwables) {
                                 throwables.printStackTrace();
                             }
@@ -141,6 +139,7 @@ public class MasterCardLimitPanel {
                             try {
                                 FrontEndControl.changePaymentLimits("Master card", payBigDecimal, user.getUser().getId());
                                 limitPayValue.setText(newPayValue);
+                                newPayLimit.setText("");
                             } catch (SQLException throwables) {
                                 throwables.printStackTrace();
                             }

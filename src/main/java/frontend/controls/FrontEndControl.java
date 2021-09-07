@@ -3,11 +3,8 @@ package frontend.controls;
 import backend.JDBC.Login;
 import backend.JDBC.Register;
 import backend.JDBC.TransferMoney;
-import frontend.panels.*;
-
 import backend.JDBC.ChangeLimit;
 import frontend.panels.LoginPanel;
-
 import java.math.BigDecimal;
 import java.sql.SQLException;
 
@@ -24,12 +21,6 @@ public class FrontEndControl {
         register.register(username, password, email, city, firstName, lastName);
         LoginPanel.loginFrame();
     }
-
-//    public static void registerDataBaseControl(String username, String password, String email, String city, String firstName, String lastName) throws SQLException {
-//        Register register = new Register();
-//        register.setConnection();
-//        register.register(username, password, email, city, firstName, lastName);
-//    }
 
     public static boolean loginDataBaseControl(String username, String password) throws SQLException {
         Login login = new Login();
@@ -64,9 +55,14 @@ public class FrontEndControl {
         }
     }
 
-    public static void transferMoney(String iban, int currentUserId, String fromCard, BigDecimal money) throws SQLException {
+    public static boolean transferMoney(String iban, int currentUserId, String fromCard, BigDecimal money) throws SQLException {
         TransferMoney transferMoney = new TransferMoney();
         transferMoney.setConnection();
         transferMoney.transferMoney(iban,currentUserId,fromCard,money);
+        boolean isCorrectIban = transferMoney.isCorrectIban();
+        boolean isHaveMoney = transferMoney.isHaveMoney();
+        boolean isOtherUser = transferMoney.isOtherUser();
+
+        return isCorrectIban && isHaveMoney && isOtherUser;
     }
 }

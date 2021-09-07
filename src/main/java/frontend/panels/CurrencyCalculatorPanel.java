@@ -26,17 +26,12 @@ public class CurrencyCalculatorPanel implements ActionListener{
 
     public static Component CurrencyCalculatorPanel(){
 
-        String money = "1000";
 
         Font customFont = new Font(Font.SERIF, Font.BOLD, 18);
         Font textCustomFont = new Font(Font.SERIF, Font.PLAIN, 18);
         Border blackLine = BorderFactory.createLineBorder(Color.BLACK);
 
-        ///JFrame currencyCalculatorFrame = new JFrame("Smart Banking — Currency Calculator");
         JPanel currencyCalculatorPanel = new JPanel();
-        //currencyCalculatorFrame.setSize(430, 350);
-        //currencyCalculatorFrame.setBounds(600,300,430, 350);
-        //currencyCalculatorFrame.add(currencyCalculatorPanel);
         currencyCalculatorPanel.setLayout(null);
         currencyCalculatorPanel.setBackground(new Color(238, 247, 255));
 
@@ -110,7 +105,6 @@ public class CurrencyCalculatorPanel implements ActionListener{
         );
         currencyCalculatorPanel.add(convertButton);
 
-        //currencyCalculatorFrame.setVisible(true);
         return currencyCalculatorPanel;
     }
 

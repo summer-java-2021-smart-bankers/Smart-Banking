@@ -1,7 +1,6 @@
 package frontend.panels;
 
 import frontend.controls.FrontEndControl;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;

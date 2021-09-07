@@ -1,8 +1,9 @@
 package frontend.panels;
 
-import frontend.controls.FrontEndControl;
-
-import backend.users.User;
+import com.teamdev.jxbrowser.browser.Browser;
+import com.teamdev.jxbrowser.engine.Engine;
+import com.teamdev.jxbrowser.engine.EngineOptions;
+import com.teamdev.jxbrowser.view.swing.BrowserView;
 import backend.users.UserController;
 
 import javax.swing.*;
@@ -10,8 +11,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.sql.SQLException;
 
+import static com.teamdev.jxbrowser.engine.RenderingMode.HARDWARE_ACCELERATED;
 
 
 public class CoordinationPanel{
@@ -29,6 +30,7 @@ public class CoordinationPanel{
         //Main JFrame
         Font customFont = new Font(Font.SERIF, Font.BOLD, 18);
         JFrame mainFrame = new JFrame("SmartBanking — " + user.getUser().getFirstName()+ " " + user.getUser().getLastName());
+        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setBounds(650,200,400, 500);
 
         //Coordination Panel
@@ -91,7 +93,22 @@ public class CoordinationPanel{
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        System.out.println("Hello");
+
+                            EngineOptions options = EngineOptions.newBuilder(HARDWARE_ACCELERATED).build();
+                            Engine engine = Engine.newInstance(options);
+                            Browser browser = engine.newBrowser();
+
+                            SwingUtilities.invokeLater(() -> {
+                            BrowserView view = BrowserView.newInstance(browser);
+
+                            JFrame frame = new JFrame("Обекти");
+                            frame.add(view, BorderLayout.CENTER);
+                            frame.setSize(800, 500);
+                            frame.setBounds(650,200,800, 500);
+                            frame.setVisible(true);
+
+                            browser.navigation().loadUrl("file:///C://Users//Rado//Downloads/map.html");
+                        });
                     }
                 });
         coordinationPanel.add(objectsButton);

@@ -2,14 +2,10 @@ package frontend.panels;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class CardsPanel {
 
     public static Component CardsPanel(){
-
-        Font customFont = new Font(Font.SERIF, Font.BOLD, 18);
 
         JPanel allCardsPanel = new JPanel();
         allCardsPanel.setLayout(new GridLayout(3,1));

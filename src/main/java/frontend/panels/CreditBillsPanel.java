@@ -1,7 +1,5 @@
 package frontend.panels;
 
-import backend.JDBC.Login;
-import backend.users.User;
 import backend.users.UserController;
 
 import javax.swing.*;
